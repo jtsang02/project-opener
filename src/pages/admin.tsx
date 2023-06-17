@@ -17,11 +17,14 @@ export default function Form() {
     return (
         <div className="min-h-screen bg-gray-100 py-6 flex flex-col sm:py-12">
             <Header props={{
-                heading: "Project Opening Form",
-                paragraph: "Fill out the form below to request a new project number.",
-                linkurl: "/admin",
-                linkName: "Login as Admin"
+                heading: "Admin View",
+                paragraph: "",
+                linkurl: "/",
+                linkName: "Return to Form"
             }} />
+            admin page ...            
+            <p>{data?.name}</p>
+
         </div>
     );
 }
