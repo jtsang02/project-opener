@@ -1,0 +1,35 @@
+import Link from "next/link"
+
+export default function Header({ props }: {
+    props: {
+        heading: string;
+        paragraph: string;
+        linkurl: string;
+        linkName: string;
+    };
+}) {
+    return (
+        <div className="mb-10 ">
+            <div className="flex justify-center">
+                <a href="https://ghl.ca/">
+                    <img
+                        alt=""
+                        className="h-16 w-auto bg-gray-500 p-1 rounded-md"
+                        src="https://ghl.ca/wp-content/uploads/2017/07/logo_White_Red.png"
+                    />
+                </a>
+            </div>
+            <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
+                {props.heading}
+            </h2>
+            <p className="mt-2 text-center text-lg text-gray-600">
+                {props.paragraph} {' '}
+            </p>
+            <div className="mt-1 text-center text-m font-medium text-red-800 hover:text-red-900">
+                <Link href={props.linkurl}>
+                    {props.linkName}
+                </Link>
+            </div>
+        </div>
+    );
+}
