@@ -1,6 +1,6 @@
-import Link from "next/link"
+import Button from "./Button";
 
-export default function Header({ props }: {
+export default function Header ({ props }: {
     props: {
         heading: string;
         paragraph: string;
@@ -25,10 +25,11 @@ export default function Header({ props }: {
             <p className="mt-2 text-center text-lg text-gray-600">
                 {props.paragraph} {' '}
             </p>
-            <div className="mt-1 text-center text-m font-medium text-red-800 hover:text-red-900">
-                <Link href={props.linkurl}>
-                    {props.linkName}
-                </Link>
+            <div className="text-center mt-2">
+                <Button props={{
+                    linkurl: props.linkurl,
+                    linkName: props.linkName
+                }} />
             </div>
         </div>
     );
