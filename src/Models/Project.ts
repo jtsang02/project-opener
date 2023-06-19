@@ -23,10 +23,10 @@ interface Project {
     id: number;
     name: string;
     address: string;
+    classification: string[]; // this will be a dropdown or radio button
     client: Client;
     careOfClient: Client; // optional
     accounting: Accounting;
-    classification: string; // this will be a dropdown or radio button
     internalContact: internalContact;
     dueDate: Date;
     status: string; // this will be a dropdown or radio button
