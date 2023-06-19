@@ -1,6 +1,6 @@
 import { Input } from "@material-tailwind/react";
 
-export default function InputForm ({ props }: {
+export default function InputField ({ props }: {
     props: {
         label: string;
         name: string;
@@ -8,6 +8,7 @@ export default function InputForm ({ props }: {
         type: string;
         placeholder: string;
         required: boolean;
+        onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     };
 }) {
     return (
@@ -20,6 +21,7 @@ export default function InputForm ({ props }: {
                 type={props.type}
                 placeholder={props.placeholder}
                 required={props.required}
+                onChange={props.onChange}
             />
         </label>
     )

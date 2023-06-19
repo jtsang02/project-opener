@@ -1,13 +1,34 @@
 import { useEffect, useState } from "react";
 import Project from "@/Models/Project";
 import Header from "@/Components/Header";
-import InputForm from "@/Components/InputForm";
+import InputField from "@/Components/InputField";
+import RadioBtnGroup from "@/Components/RadioBtnGroup";
+import { Checkbox } from "@material-tailwind/react";
 
 export default function Form(Project: Project) {
 
-  //call the api
+  // delete this later
   const [data, setData] = useState<any>(null);
 
+  // Project Details
+  const [projectName, setProjectName] = useState<string>("");
+  const [projectAddress, setProjectAddress] = useState<string>("");
+  // Client Information
+  const [clientName, setClientName] = useState<string>("");
+  const [clientAddress, setClientAddress] = useState<string>("");
+  const [clientPhone, setClientPhone] = useState<string>("");
+  const [clientEmail, setClientEmail] = useState<string>("");
+  // Care of Client Information
+
+  // Accounting
+  const [formalContract, setFormalContract] = useState<boolean>(true);
+  const [feeCategory, setFeeCategory] = useState<string>("");
+  const [retainer, setRetainer] = useState<boolean>(false);
+  const [retainerAmount, setRetainerAmount] = useState<number>(0);
+  // Internal Contact
+
+
+  //call the api
   useEffect(() => {
     fetch('/api/hello')
       .then(res => res.json())
@@ -32,22 +53,24 @@ export default function Form(Project: Project) {
                 <label className="text-xl font-bold text-gray-900">Project Details</label>
 
                 {/* Project Name */}
-                <InputForm props={{
+                <InputField props={{
                   label: "Project Name",
                   name: "projectName",
                   id: "projectName",
                   type: "search",
                   placeholder: "enter a project name",
-                  required: true
+                  required: true,
+                  onChange: (e) => setProjectName(e.target.value)
                 }} />
                 {/* Project Address */}
-                <InputForm props={{
+                <InputField props={{
                   label: "Project Address",
                   name: "projectAddress",
                   id: "projectAddress",
                   type: "search",
                   placeholder: "enter a project address",
-                  required: true
+                  required: true,
+                  onChange: (e) => setProjectAddress(e.target.value)
                 }} />
 
                 {/* Project Classification
@@ -57,43 +80,103 @@ export default function Form(Project: Project) {
                 <label className="text-xl font-bold text-gray-900">Client Information</label>
 
                 {/* Client Name */}
-                <InputForm props={{
+                <InputField props={{
                   label: "Client Name",
                   name: "clientName",
                   id: "clientName",
                   type: "search",
                   placeholder: "enter a client name",
-                  required: true
+                  required: true,
+                  onChange: (e) => setClientName(e.target.value)
                 }} />
                 {/* Client Address */}
-                <InputForm props={{
+                <InputField props={{
                   label: "Client Address",
                   name: "clientAddress",
                   id: "clientAddress",
                   type: "search",
                   placeholder: "enter a client address",
-                  required: true
+                  required: true,
+                  onChange: (e) => setClientAddress(e.target.value)
                 }} />
                 {/* Client Phone */}
-                <InputForm props={{
+                <InputField props={{
                   label: "Client Phone",
                   name: "clientPhone",
                   id: "clientPhone",
                   type: "search",
                   placeholder: "enter a client phone number",
-                  required: true
+                  required: true,
+                  onChange: (e) => setClientPhone(e.target.value)
                 }} />
                 {/* Client Email */}
-                <InputForm props={{
+                <InputField props={{
                   label: "Client Email",
                   name: "clientEmail",
                   id: "clientEmail",
                   type: "search",
                   placeholder: "enter a client email",
-                  required: true
+                  required: true,
+                  onChange: (e) => setClientEmail(e.target.value)
                 }} />
 
                 <label className="text-xl font-bold text-gray-900">Accounting</label>
+
+                {/* Contract type */}
+                <span className="text-gray-700 font-medium px-1">Contract Type</span>
+                <RadioBtnGroup props={{
+                  options: [
+                    { label: "Formal", option: "formal" },
+                    { label: "Email", option: "email" }
+                  ],
+                  onchange(e) {
+                    setFormalContract(e.target.value === "formal");
+                  },
+                }} />
+
+                {/* Fee Category */}
+                <span className="text-gray-700 font-medium px-1">Fee Category</span>
+                <RadioBtnGroup props={{
+                  options: [
+                    { label: "Fixed Fee", option: "fixedFee" },
+                    { label: "Budget Estimate", option: "budgetEstimate" },
+                    { label: "Time & Expense", option: "TnE" },
+                  ],
+                  onchange(e) {
+                    setFeeCategory(e.target.value);
+                  },
+                }} />
+
+                {/* Retainer - make the label in same row as checkbox*/}
+                <div className="inline-flex items-baseline">
+                  <span className="text-gray-700 font-medium px-1">
+                    Retainer
+                    <Checkbox
+                      color="blue"
+                      id="retainer"
+                      name="retainer"
+                      type="checkbox"
+                      checked={retainer}
+                      onChange={(e) => setRetainer(e.target.checked)}
+                    />
+                  </span>
+                </div>
+
+                {/* Retainer Amount */}
+                {retainer && (
+                  <InputField props={{
+                    label: "Retainer Amount",
+                    name: "retainerAmount",
+                    id: "retainerAmount",
+                    type: "number",
+                    placeholder: "enter a retainer amount",
+                    required: false,
+                    onChange: (e) => setRetainerAmount(parseInt(e.target.value))
+                  }} />
+                )}
+
+                <label className="text-xl font-bold text-gray-900">GHL Contact</label>
+
 
                 <label className="block">
                   <span className="text-gray-700 font-bold px-1">Special Notes</span>
@@ -102,7 +185,7 @@ export default function Form(Project: Project) {
                     id="specialNotes"
                     rows={3}
                     className="mt-1 block w-full rounded-md p-1 bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
-                    placeholder="Project Description"
+                    placeholder="add any special notes here like if this is a point job"
                   ></textarea>
                 </label>
 
