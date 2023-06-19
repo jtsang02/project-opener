@@ -9,6 +9,7 @@ interface Accounting {
     formalContract: boolean;
     feeCategory: string;
     retainer: boolean;
+    retainerAmount: number;    // optional
 };
 
 interface internalContact {
