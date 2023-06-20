@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import Project from "@/Models/Project";
 import { classification } from "@/Data/Classification";
+import { feeCategories } from "@/Data/FeeCategories";
+import { contractTypes } from "@/Data/ContractTypes";
 import Header from "@/Components/Header";
 import InputField from "@/Components/InputField";
-import RadioBtnGroup from "@/Components/RadioBtnGroup";
-import { Checkbox } from "@material-tailwind/react";
+import { Checkbox, Radio } from "@material-tailwind/react";
 
 export default function Form(Project: Project) {
 
@@ -74,24 +75,22 @@ export default function Form(Project: Project) {
                 <span className="text-gray-700 font-medium px-1">Project Classification
                   <span className="text-red-500">*</span>
                 </span>
-                {// map through classifications using checkbox component
-                  classification.map((item) => (
-                    <Checkbox
-                      key={item}
-                      color="blue"
-                      label={item}
-                      id={item}
-                      name={item}
-                      value={item}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setProjectClassifications([...projectClassifications, e.target.value])
-                        } else {
-                          setProjectClassifications(projectClassifications.filter((item) => item !== e.target.value))
-                        }
-                      }}
-                    />
-                  ))
+                {classification.map((item) => (
+                  <Checkbox
+                    key={item}
+                    label={<span className="text-gray-700"><span>&nbsp;</span>{item}</span>}
+                    id={item}
+                    name={item}
+                    value={item}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setProjectClassifications([...projectClassifications, e.target.value])
+                      } else {
+                        setProjectClassifications(projectClassifications.filter((item) => item !== e.target.value))
+                      }
+                    }}
+                  />
+                ))
                 }
 
                 <label className="text-xl font-bold text-gray-900">Client Information</label>
@@ -138,7 +137,7 @@ export default function Form(Project: Project) {
                 {/* care of*/}
                 <div className="inline-flex items-baseline">
                   <span className="text-gray-700 font-medium px-1">
-                    Is Client Care Of?
+                    <span>Is Client Care Of?&nbsp;&nbsp;</span>
                     <Checkbox
                       color="blue"
                       id="retainer"
@@ -200,32 +199,36 @@ export default function Form(Project: Project) {
                 <span className="text-gray-700 font-medium px-1">Contract Type
                   <span className="text-red-500">*</span>
                 </span>
-                <RadioBtnGroup props={{
-                  options: [
-                    { label: "Formal", option: "formal" },
-                    { label: "Email", option: "email" }
-                  ],
-                  onchange(e) {
-                    setFormalContract(e.target.value === "formal");
-                  },
-                }} />
+                {contractTypes.map((item) => (
+                  <Radio
+                    key={item.option}
+                    label={<span className="text-gray-700"><span>&nbsp;</span>{item.label}</span>}
+                    id={item.option}
+                    name="feeCategory"
+                    value={item.option}
+                    onChange={(e) => setFormalContract(e.target.value === "formal")}
+                  />
+                ))}
+
                 {/* Fee Category */}
                 <span className="text-gray-700 font-medium px-1">Fee Category
                   <span className="text-red-500">*</span>
                 </span>
-                <RadioBtnGroup props={{
-                  options: [
-                    { label: "Fixed Fee", option: "fixedFee" },
-                    { label: "Budget Estimate", option: "budgetEstimate" },
-                    { label: "Time & Expense", option: "TnE" },
-                  ],
-                  onchange(e) {setFeeCategory(e.target.value);},
-                }} />
+                {feeCategories.map((item) => (
+                  <Radio
+                    key={item.option}
+                    label={<span className="text-gray-700"><span>&nbsp;</span>{item.label}</span>}
+                    id={item.option}
+                    name="contractType"
+                    value={item.option}
+                    onChange={(e) => setFeeCategory(e.target.value)}
+                  />
+                ))}
 
                 {/* Retainer - make the label in same row as checkbox*/}
                 <div className="inline-flex items-baseline">
                   <span className="text-gray-700 font-medium px-1">
-                    Retainer
+                    <span>Retainer&nbsp;&nbsp;</span>
                     <Checkbox
                       color="blue"
                       id="retainer"
@@ -251,6 +254,8 @@ export default function Form(Project: Project) {
                 )}
 
                 <label className="text-xl font-bold text-gray-900">GHL Contact</label>
+
+                <label className="text-xl font-bold text-gray-900">Last Part...</label>
 
 
                 <label className="block">
