@@ -66,7 +66,7 @@ export default function Form({}: { project: Project }) {
     );
   };
 
-  const handleClearForm = (e:any) => {
+  const handleReset = (e:any) => {
     e.preventDefault();
     setProjectName("");
     setProjectAddress("");
@@ -90,6 +90,7 @@ export default function Form({}: { project: Project }) {
     setTechSupport2("");
     setDueDate(new Date());
     setNotes("");
+    console.log("reset");
   }
 
   const handleSubmit = (e: any) => {
@@ -127,9 +128,7 @@ export default function Form({}: { project: Project }) {
       notes: notes
     };
 
-    console.log(newProject);
-    handleClearForm(e);
-    
+    console.log(newProject);    
   }
 
   return (
@@ -452,7 +451,6 @@ export default function Form({}: { project: Project }) {
                   ></textarea>
                 </label>
 
-                {/* Submit */}
                 <div className="flex-col-2">
                   <Button
                     ripple={true}
@@ -462,13 +460,12 @@ export default function Form({}: { project: Project }) {
                   >
                     Submit
                   </Button>
-                  {/* Clear form */}
                   <Button
                     ripple={true}
                     className="mt-1 text-lg font-medium bg-gray-300 rounded-lg py-1 px-2 text-red-800 w-1/2"
-                    onClick={handleClearForm}
+                    onClick={handleReset}
                   >
-                    Clear Form
+                    Reset
                   </Button>
                 </div>
               </div>
