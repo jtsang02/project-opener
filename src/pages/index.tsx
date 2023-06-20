@@ -3,14 +3,15 @@ import Project from "@/Models/Project";
 import { classification } from "@/Data/Classification";
 import { feeCategories } from "@/Data/FeeCategories";
 import { contractTypes } from "@/Data/ContractTypes";
+import { staff } from "@/Data/Staff";
 import Header from "@/Components/Header";
 import InputField from "@/Components/InputField";
 import { Checkbox, Radio } from "@material-tailwind/react";
-
+import Select from 'react-select';
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css'
+ 
 export default function Form(Project: Project) {
-
-  // delete this later
-  const [data, setData] = useState<any>(null);
 
   // Project Details
   const [projectName, setProjectName] = useState<string>("");
@@ -33,7 +34,14 @@ export default function Form(Project: Project) {
   const [retainer, setRetainer] = useState<boolean>(false);
   const [retainerAmount, setRetainerAmount] = useState<number>(0);
   // Internal Contact
-
+  const [principal, setPrincipal] = useState<string>("");
+  const [projectManager, setProjectManager] = useState<string>("");
+  const [techSupport1, setTechSupport1] = useState<string>("");
+  const [techSupport2, setTechSupport2] = useState<string>("");
+  // due date
+  const [dueDate, setDueDate] = useState<Date>(new Date());
+  // notes
+  const [notes, setNotes] = useState<string>("");
 
   return (
     <main className="min-h-screen bg-gray-100 py-6 flex flex-col sm:py-12">
@@ -253,19 +261,106 @@ export default function Form(Project: Project) {
                   }} />
                 )}
 
+                {/* Principal */}
                 <label className="text-xl font-bold text-gray-900">GHL Contact</label>
+                <span className="text-gray-700 font-medium px-1">Principal
+                  <span className="text-red-500">*</span>
+                </span>
+                <div className="w-72 gap-6">
+                  <Select
+                    isClearable
+                    isSearchable
+                    name="principal"
+                    options = {
+                      staff.filter((item) => item.role === "principal").map((item) => ({
+                        value: item.initials,
+                        label: item.name
+                      }))
+                    }
+                    onChange={(e) => setPrincipal(e?.value || "")}
+                  />
+                </div>
 
-                <label className="text-xl font-bold text-gray-900">Last Part...</label>
+                {/* Project Manager */}
+                <span className="text-gray-700 font-medium px-1">Project Manager
+                  <span className="text-red-500">*</span>
+                </span>
+                <div className="w-72 gap-6">
+                  <Select
+                    isClearable
+                    isSearchable
+                    name="associate"
+                    options = {
+                      staff.filter((item) => item.role !== "admin").map((item) => ({
+                        value: item.initials,
+                        label: item.name
+                      }))
+                    }
+                    onChange={(e) => setProjectManager(e?.value || "")}
+                  />
+                </div>
 
+                {/* Tech Support 1 */}
+                <span className="text-gray-700 font-medium px-1">Tech Support 1
+                  <span className="text-red-500">*</span>
+                </span>
+                <div className="w-72 gap-6">
+                  <Select
+                    isClearable
+                    isSearchable
+                    name="techSupport1"
+                    options = {
+                      staff.filter((item) => item.role !== "admin").map((item) => ({
+                        value: item.initials,
+                        label: item.name
+                      }))
+                    }
+                    onChange={(e) => setTechSupport1(e?.value || "")}
+                  />
+                </div>
 
+                {/* Tech Support 2 */}
+                <span className="text-gray-700 font-medium px-1">Tech Support 2</span>
+                <div className="w-72 gap-6">
+                  <Select
+                    isClearable
+                    isSearchable
+                    name="techSupport2"
+                    options = {
+                      staff.filter((item) => item.role !== "admin").map((item) => ({
+                        value: item.initials,
+                        label: item.name
+                      }))
+                    }
+                    onChange={(e) => setTechSupport2(e?.value || "")}
+                  />
+                </div>                
+
+                <label className="text-xl font-bold text-gray-900">Deadline</label>
+
+                {/* Due date */}
+                <span className="text-gray-700 font-medium px-1">Due Date
+                  <span className="text-red-500">*</span>
+                </span>
+                <DatePicker
+                  // make calendar 
+                  className="w-72"
+                  selected={dueDate}
+                  onChange={(date) => setDueDate(date as Date)}
+                  dateFormat="MMMM d, yyyy"
+                  minDate={new Date()}
+                />
+
+                {/* Notes */}
                 <label className="block">
                   <span className="text-gray-700 font-bold px-1">Special Notes</span>
                   <textarea
-                    name="specialNotes"
-                    id="specialNotes"
+                    name="notes"
+                    id="notes"
                     rows={3}
                     className="mt-1 block w-full rounded-md p-1 bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
                     placeholder="add any special notes here like if this is a point job"
+                    onChange={(e) => setNotes(e.target.value || "")}
                   ></textarea>
                 </label>
 
