@@ -6,12 +6,12 @@ import { contractTypes } from "@/Data/ContractTypes";
 import { staff } from "@/Data/Staff";
 import Header from "@/Components/Header";
 import InputField from "@/Components/InputField";
-import { Checkbox, Radio } from "@material-tailwind/react";
+import { Checkbox, Radio, Button } from "@material-tailwind/react";
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
- 
-export default function Form(Project: Project) {
+
+export default function Form({}: { project: Project }) {
 
   // Project Details
   const [projectName, setProjectName] = useState<string>("");
@@ -43,6 +43,95 @@ export default function Form(Project: Project) {
   // notes
   const [notes, setNotes] = useState<string>("");
 
+  const formIsValid = () => {
+    return (
+      projectName !== "" &&
+      projectAddress !== "" &&
+      projectClassifications.length > 0 &&
+      clientName !== "" &&
+      clientAddress !== "" &&
+      clientPhone !== "" &&
+      clientEmail !== "" &&
+      (careOf === false ||
+        (careOfClientName !== "" &&
+
+          careOfClientAddress !== "" &&
+          careOfClientPhone !== "" &&
+          careOfClientEmail !== "")) &&
+      feeCategory !== "" &&
+      principal !== "" &&
+      projectManager !== "" &&
+      techSupport1 !== "" &&
+      techSupport2 !== ""
+    );
+  };
+
+  const handleClearForm = (e:any) => {
+    e.preventDefault();
+    setProjectName("");
+    setProjectAddress("");
+    setProjectClassifications([]);
+    setClientName("");
+    setClientAddress("");
+    setClientPhone("");
+    setClientEmail("");
+    setCareOf(false);
+    setCareOfClientName("");
+    setCareOfClientAddress("");
+    setCareOfClientPhone("");
+    setCareOfClientEmail("");
+    setFormalContract(true);
+    setFeeCategory("");
+    setRetainer(false);
+    setRetainerAmount(0);
+    setPrincipal("");
+    setProjectManager("");
+    setTechSupport1("");
+    setTechSupport2("");
+    setDueDate(new Date());
+    setNotes("");
+  }
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    const newProject: Project = {
+      name: projectName,
+      address: projectAddress,
+      classification: projectClassifications,
+      client: {
+        name: clientName,
+        address: clientAddress,
+        phone: clientPhone,
+        email: clientEmail
+      },
+      careOfClient: {
+        name: careOfClientName,
+        address: careOfClientAddress,
+        phone: careOfClientPhone,
+        email: careOfClientEmail
+      },
+      accounting: {
+        formalContract: formalContract,
+        feeCategory: feeCategory,
+        retainer: retainer,
+        retainerAmount: retainerAmount
+      },
+      internalContact: {
+        principal: principal,
+        projectManager: projectManager,
+        techSupport1: techSupport1,
+        techSupport2: techSupport2
+      },
+      dueDate: dueDate,
+      notes: notes
+    };
+
+    console.log(newProject);
+    handleClearForm(e);
+    
+  }
+
   return (
     <main className="min-h-screen bg-gray-100 py-6 flex flex-col sm:py-12">
       <Header props={{
@@ -55,7 +144,7 @@ export default function Form(Project: Project) {
       <section>
         <div className="mx-auto px-4 sm:px-8 py-8 max-w-screen-lg">
           <div className="p-6 bg-white rounded-lg shadow-md">
-            <form action="#" method="POST">
+            <form action="#" method="POST" id="project-form">
               <div className="grid grid-cols-1 gap-6">
 
                 <label className="text-xl font-bold text-gray-900">Project Details</label>
@@ -271,7 +360,7 @@ export default function Form(Project: Project) {
                     isClearable
                     isSearchable
                     name="principal"
-                    options = {
+                    options={
                       staff.filter((item) => item.role === "principal").map((item) => ({
                         value: item.initials,
                         label: item.name
@@ -290,7 +379,7 @@ export default function Form(Project: Project) {
                     isClearable
                     isSearchable
                     name="associate"
-                    options = {
+                    options={
                       staff.filter((item) => item.role !== "admin").map((item) => ({
                         value: item.initials,
                         label: item.name
@@ -309,7 +398,7 @@ export default function Form(Project: Project) {
                     isClearable
                     isSearchable
                     name="techSupport1"
-                    options = {
+                    options={
                       staff.filter((item) => item.role !== "admin").map((item) => ({
                         value: item.initials,
                         label: item.name
@@ -326,7 +415,7 @@ export default function Form(Project: Project) {
                     isClearable
                     isSearchable
                     name="techSupport2"
-                    options = {
+                    options={
                       staff.filter((item) => item.role !== "admin").map((item) => ({
                         value: item.initials,
                         label: item.name
@@ -334,7 +423,7 @@ export default function Form(Project: Project) {
                     }
                     onChange={(e) => setTechSupport2(e?.value || "")}
                   />
-                </div>                
+                </div>
 
                 <label className="text-xl font-bold text-gray-900">Deadline</label>
 
@@ -343,8 +432,7 @@ export default function Form(Project: Project) {
                   <span className="text-red-500">*</span>
                 </span>
                 <DatePicker
-                  // make calendar 
-                  className="w-72"
+                  className="w-72 border-2 border-gray-200 rounded-md p-2"
                   selected={dueDate}
                   onChange={(date) => setDueDate(date as Date)}
                   dateFormat="MMMM d, yyyy"
@@ -364,6 +452,25 @@ export default function Form(Project: Project) {
                   ></textarea>
                 </label>
 
+                {/* Submit */}
+                <div className="flex-col-2">
+                  <Button
+                    ripple={true}
+                    className={`mt-1 text-lg font-medium bg-gray-300 rounded-lg py-1 px-2 text-red-800 w-1/2 ${!formIsValid() && "opacity-50 cursor-not-allowed"}`}
+                    disabled={!formIsValid()}
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </Button>
+                  {/* Clear form */}
+                  <Button
+                    ripple={true}
+                    className="mt-1 text-lg font-medium bg-gray-300 rounded-lg py-1 px-2 text-red-800 w-1/2"
+                    onClick={handleClearForm}
+                  >
+                    Clear Form
+                  </Button>
+                </div>
               </div>
             </form>
           </div>
@@ -371,4 +478,4 @@ export default function Form(Project: Project) {
       </section>
     </main>
   );
-}
+};

@@ -1,8 +1,8 @@
 interface Client {
     name: string;
-    title: string;      // optional
+    address: string;
     phone: string;
-    address: string;    
+    email: string;    
 };
 
 interface Accounting {
@@ -20,7 +20,6 @@ interface internalContact {
 };
 
 interface Project {
-    id: number;
     name: string;
     address: string;
     classification: string[]; // this will be a dropdown or radio button
@@ -29,7 +28,7 @@ interface Project {
     accounting: Accounting;
     internalContact: internalContact;
     dueDate: Date;
-    status: string; // this will be a dropdown or radio button
+    notes: string; // this will be a dropdown or radio button
 };
 
 export default Project;
