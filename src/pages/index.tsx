@@ -115,6 +115,7 @@ export default function ({}: { project: Project }) {
     setNotes("");
     setFormValid(false);
     formRef.current?.reset();
+    window.scrollTo({top: 0, behavior: "smooth"}); 
   };
 
   // reset the form
@@ -122,7 +123,7 @@ export default function ({}: { project: Project }) {
     e.preventDefault();
     resetForm(e);
     // TODO: add alert to confirm reset
-    window.scrollTo(0, 0);
+    
   }
 
   // submit the form if it is valid
@@ -163,13 +164,12 @@ export default function ({}: { project: Project }) {
       dueDate: dueDate,
       notes: notes
     };
-
+    
+    // SEND DATA TO DATABASE HERE
+    console.log(newProject);  
     // RESET FORM
     resetForm(e);
     // Todo: add alert to confirm submission
-    window.scrollTo(0, 0);
-    // SEND DATA TO DATABASE HERE
-    console.log(newProject);    
   }
 
   return (
