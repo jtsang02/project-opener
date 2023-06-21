@@ -1,8 +1,8 @@
 interface Staff {
     name: string;
     initials: string;
+    role: string;
     email: string;
-    title: string;
 };
 
 export default Staff;
