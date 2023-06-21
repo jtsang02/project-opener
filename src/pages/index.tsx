@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Project from "@/Models/Project";
 import { classification } from "@/Data/Classification";
 import { feeCategories } from "@/Data/FeeCategories";
@@ -11,7 +11,9 @@ import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
 
-export default function Form({}: { project: Project }) {
+export default function ({}: { project: Project }) {
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   // Project Details
   const [projectName, setProjectName] = useState<string>("");
@@ -38,10 +40,11 @@ export default function Form({}: { project: Project }) {
   const [projectManager, setProjectManager] = useState<string>("");
   const [techSupport1, setTechSupport1] = useState<string>("");
   const [techSupport2, setTechSupport2] = useState<string>("");
-  // due date
+  // Deadline
   const [dueDate, setDueDate] = useState<Date>(new Date());
-  // notes
   const [notes, setNotes] = useState<string>("");
+  // Form Validation
+  const [formValid, setFormValid] = useState<boolean>(false);
 
   const formIsValid = () => {
     return (
@@ -66,6 +69,30 @@ export default function Form({}: { project: Project }) {
     );
   };
 
+  // if any of the field changes, check if the form is valid
+  useEffect(() => {
+    setFormValid(formIsValid());
+  }, [
+    projectName,
+    projectAddress,
+    projectClassifications,
+    clientName,
+    clientAddress,
+    clientPhone,
+    clientEmail,
+    careOf,
+    careOfClientName,
+    careOfClientAddress,
+    careOfClientPhone,
+    careOfClientEmail,
+    feeCategory,
+    principal,
+    projectManager,
+    techSupport1,
+    techSupport2,
+  ]);
+
+  // reset the form
   const handleReset = (e:any) => {
     e.preventDefault();
     setProjectName("");
@@ -90,11 +117,16 @@ export default function Form({}: { project: Project }) {
     setTechSupport2("");
     setDueDate(new Date());
     setNotes("");
+    formRef.current?.reset();
     console.log("reset");
   }
 
+  // submit the form if it is valid
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
+    if (!formValid)
+      return;
 
     const newProject: Project = {
       name: projectName,
@@ -128,6 +160,10 @@ export default function Form({}: { project: Project }) {
       notes: notes
     };
 
+    // RESET FORM
+    handleReset(e);
+    formRef.current?.reset();
+    // SEND DATA TO DATABASE HERE
     console.log(newProject);    
   }
 
@@ -143,7 +179,7 @@ export default function Form({}: { project: Project }) {
       <section>
         <div className="mx-auto px-4 sm:px-8 py-8 max-w-screen-lg">
           <div className="p-6 bg-white rounded-lg shadow-md">
-            <form action="#" method="POST" id="project-form">
+            <form ref={formRef}>
               <div className="grid grid-cols-1 gap-6">
 
                 <label className="text-xl font-bold text-gray-900">Project Details</label>
@@ -454,8 +490,8 @@ export default function Form({}: { project: Project }) {
                 <div className="flex-col-2">
                   <Button
                     ripple={true}
-                    className={`mt-1 text-lg font-medium bg-gray-300 rounded-lg py-1 px-2 text-red-800 w-1/2 ${!formIsValid() && "opacity-50 cursor-not-allowed"}`}
-                    disabled={!formIsValid()}
+                    className={`mt-1 text-lg font-medium bg-gray-300 rounded-lg py-1 px-2 text-red-800 w-1/2 ${!formValid && "opacity-50 cursor-not-allowed"}`}
+                    disabled={!formValid}
                     onClick={handleSubmit}
                   >
                     Submit
