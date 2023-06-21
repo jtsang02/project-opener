@@ -57,19 +57,16 @@ export default function ({}: { project: Project }) {
       clientEmail !== "" &&
       (careOf === false ||
         (careOfClientName !== "" &&
-
           careOfClientAddress !== "" &&
           careOfClientPhone !== "" &&
           careOfClientEmail !== "")) &&
       feeCategory !== "" &&
       principal !== "" &&
       projectManager !== "" &&
-      techSupport1 !== "" &&
-      techSupport2 !== ""
-    );
+      techSupport1 !== "" )
   };
 
-  // if any of the field changes, check if the form is valid
+  // if any of the mandatory fields changes, check if the form is valid
   useEffect(() => {
     setFormValid(formIsValid());
   }, [
@@ -85,11 +82,11 @@ export default function ({}: { project: Project }) {
     careOfClientAddress,
     careOfClientPhone,
     careOfClientEmail,
+    formalContract,
     feeCategory,
     principal,
     projectManager,
-    techSupport1,
-    techSupport2,
+    techSupport1
   ]);
 
   // reset the form
@@ -117,8 +114,9 @@ export default function ({}: { project: Project }) {
     setTechSupport2("");
     setDueDate(new Date());
     setNotes("");
+    setFormValid(false);
     formRef.current?.reset();
-    console.log("reset");
+    window.scrollTo(0, 0);
   }
 
   // submit the form if it is valid
@@ -162,7 +160,6 @@ export default function ({}: { project: Project }) {
 
     // RESET FORM
     handleReset(e);
-    formRef.current?.reset();
     // SEND DATA TO DATABASE HERE
     console.log(newProject);    
   }
@@ -390,11 +387,13 @@ export default function ({}: { project: Project }) {
                 <span className="text-gray-700 font-medium px-1">Principal
                   <span className="text-red-500">*</span>
                 </span>
-                <div className="w-72 gap-6">
+                <div className="w-72 gap-6" >
                   <Select
+                    instanceId={"principal"}
                     isClearable
                     isSearchable
                     name="principal"
+                    placeholder="Select a principal"
                     options={
                       staff.filter((item) => item.role === "principal").map((item) => ({
                         value: item.initials,
@@ -411,9 +410,11 @@ export default function ({}: { project: Project }) {
                 </span>
                 <div className="w-72 gap-6">
                   <Select
+                    instanceId={"projectManager"}
                     isClearable
                     isSearchable
-                    name="associate"
+                    name="projectManager"
+                    placeholder="select a project manager"
                     options={
                       staff.filter((item) => item.role !== "admin").map((item) => ({
                         value: item.initials,
@@ -430,9 +431,11 @@ export default function ({}: { project: Project }) {
                 </span>
                 <div className="w-72 gap-6">
                   <Select
+                    instanceId={"techSupport1"}
                     isClearable
                     isSearchable
                     name="techSupport1"
+                    placeholder="select a tech support"
                     options={
                       staff.filter((item) => item.role !== "admin").map((item) => ({
                         value: item.initials,
@@ -447,9 +450,11 @@ export default function ({}: { project: Project }) {
                 <span className="text-gray-700 font-medium px-1">Tech Support 2</span>
                 <div className="w-72 gap-6">
                   <Select
+                    instanceId={"techSupport2"}
                     isClearable
                     isSearchable
                     name="techSupport2"
+                    placeholder="select a tech support"
                     options={
                       staff.filter((item) => item.role !== "admin").map((item) => ({
                         value: item.initials,
