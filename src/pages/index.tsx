@@ -89,8 +89,7 @@ export default function ({}: { project: Project }) {
     techSupport1
   ]);
 
-  // reset the form
-  const handleReset = (e:any) => {
+  const resetForm = (e: any) => {
     e.preventDefault();
     setProjectName("");
     setProjectAddress("");
@@ -116,6 +115,13 @@ export default function ({}: { project: Project }) {
     setNotes("");
     setFormValid(false);
     formRef.current?.reset();
+  };
+
+  // reset the form
+  const handleReset = (e:any) => {
+    e.preventDefault();
+    resetForm(e);
+    // TODO: add alert to confirm reset
     window.scrollTo(0, 0);
   }
 
@@ -159,7 +165,9 @@ export default function ({}: { project: Project }) {
     };
 
     // RESET FORM
-    handleReset(e);
+    resetForm(e);
+    // Todo: add alert to confirm submission
+    window.scrollTo(0, 0);
     // SEND DATA TO DATABASE HERE
     console.log(newProject);    
   }
