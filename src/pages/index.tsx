@@ -14,6 +14,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 export default function ({}: { project: Project }) {
 
   const formRef = useRef<HTMLFormElement>(null);
+  const principalRef = useRef<any>(null);
+  const projectManagerRef = useRef<any>(null);
+  const techSupport1Ref = useRef<any>(null);
+  const techSupport2Ref = useRef<any>(null);
 
   // Project Details
   const [projectName, setProjectName] = useState<string>("");
@@ -115,6 +119,10 @@ export default function ({}: { project: Project }) {
     setNotes("");
     setFormValid(false);
     formRef.current?.reset();
+    principalRef.current?.clearValue();
+    projectManagerRef.current?.clearValue();
+    techSupport1Ref.current?.clearValue();
+    techSupport2Ref.current?.clearValue();
     window.scrollTo({top: 0, behavior: "smooth"}); 
   };
 
@@ -397,6 +405,7 @@ export default function ({}: { project: Project }) {
                 </span>
                 <div className="w-72 gap-6" >
                   <Select
+                    ref={principalRef}
                     instanceId={"principal"}
                     isClearable
                     isSearchable
@@ -418,6 +427,7 @@ export default function ({}: { project: Project }) {
                 </span>
                 <div className="w-72 gap-6">
                   <Select
+                    ref={projectManagerRef}
                     instanceId={"projectManager"}
                     isClearable
                     isSearchable
@@ -439,6 +449,7 @@ export default function ({}: { project: Project }) {
                 </span>
                 <div className="w-72 gap-6">
                   <Select
+                    ref={techSupport1Ref}
                     instanceId={"techSupport1"}
                     isClearable
                     isSearchable
@@ -458,6 +469,7 @@ export default function ({}: { project: Project }) {
                 <span className="text-gray-700 font-medium px-1">Tech Support 2</span>
                 <div className="w-72 gap-6">
                   <Select
+                    ref={techSupport2Ref}
                     instanceId={"techSupport2"}
                     isClearable
                     isSearchable
