@@ -123,14 +123,14 @@ export default function ({}: { project: Project }) {
     projectManagerRef.current?.clearValue();
     techSupport1Ref.current?.clearValue();
     techSupport2Ref.current?.clearValue();
-    window.scrollTo({top: 0, behavior: "smooth"}); 
   };
 
   // reset the form
   const handleReset = (e:any) => {
     e.preventDefault();
     resetForm(e);
-    // TODO: add alert to confirm reset
+    alert("Form has been reset");
+    window.scrollTo({top: 0, behavior: "smooth"});   
     
   }
 
@@ -175,9 +175,9 @@ export default function ({}: { project: Project }) {
     
     // SEND DATA TO DATABASE HERE
     console.log(newProject);  
-    // RESET FORM
     resetForm(e);
-    // Todo: add alert to confirm submission
+    alert("Form has been submitted");
+    window.scrollTo({top: 0, behavior: "smooth"});
   }
 
   return (
@@ -188,7 +188,6 @@ export default function ({}: { project: Project }) {
         linkurl: "/admin",
         linkName: "Login as Admin"
       }} />
-
       <section>
         <div className="mx-auto px-4 sm:px-8 py-8 max-w-screen-lg">
           <div className="p-6 bg-white rounded-lg shadow-md">
