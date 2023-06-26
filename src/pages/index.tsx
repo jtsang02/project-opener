@@ -123,15 +123,14 @@ export default function ({}: { project: Project }) {
     projectManagerRef.current?.clearValue();
     techSupport1Ref.current?.clearValue();
     techSupport2Ref.current?.clearValue();
+    window.scrollTo({top: 0, behavior: "smooth"});
   };
 
   // reset the form
   const handleReset = (e:any) => {
     e.preventDefault();
     resetForm(e);
-    alert("Form has been reset");
-    window.scrollTo({top: 0, behavior: "smooth"});   
-    
+    alert("Form has been reset");    
   }
 
   // submit the form if it is valid
@@ -175,9 +174,8 @@ export default function ({}: { project: Project }) {
     
     // SEND DATA TO DATABASE HERE
     console.log(newProject);  
-    resetForm(e);
+    resetForm(e); 
     alert("Form has been submitted");
-    window.scrollTo({top: 0, behavior: "smooth"});
   }
 
   return (
