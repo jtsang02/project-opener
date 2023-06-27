@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Project from "@/Models/Project";
 import Header from "@/Components/Header";
 
 export default function Form() {
@@ -9,7 +8,7 @@ export default function Form() {
     const [data, setData] = useState<any>(null);
 
     useEffect(() => {
-        fetch('/api/hello')
+        fetch('/api/projects')
             .then(res => res.json())
             .then(data => setData(data));
     }, []);

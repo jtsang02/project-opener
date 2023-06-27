@@ -11,7 +11,7 @@ import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
 
-export default function ({}: { project: Project }) {
+export default function ({ }: { project: Project }) {
 
   const formRef = useRef<HTMLFormElement>(null);
   const principalRef = useRef<any>(null);
@@ -67,10 +67,9 @@ export default function ({}: { project: Project }) {
       feeCategory !== "" &&
       principal !== "" &&
       projectManager !== "" &&
-      techSupport1 !== "" )
+      techSupport1 !== "")
   };
 
-  // if any of the mandatory fields changes, check if the form is valid
   useEffect(() => {
     setFormValid(formIsValid());
   }, [
@@ -123,22 +122,27 @@ export default function ({}: { project: Project }) {
     projectManagerRef.current?.clearValue();
     techSupport1Ref.current?.clearValue();
     techSupport2Ref.current?.clearValue();
-    window.scrollTo({top: 0, behavior: "smooth"});
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // reset the form
-  const handleReset = (e:any) => {
+  const handleReset = async (e: any) => {
     e.preventDefault();
     resetForm(e);
-    alert("Form has been reset");    
+    alert("Form has been reset");
   }
 
   // submit the form if it is valid
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     if (!formValid)
       return;
+
+    if (retainer && retainerAmount === 0) {
+      alert("Please fill in the Retainer Amount");
+      return;
+    }
 
     const newProject: Project = {
       name: projectName,
@@ -171,10 +175,23 @@ export default function ({}: { project: Project }) {
       dueDate: dueDate,
       notes: notes
     };
-    
+
     // SEND DATA TO DATABASE HERE
-    console.log(newProject);  
-    resetForm(e); 
+    console.log(newProject);
+    try {
+      let response = await fetch('/api/addProject', {
+        method: 'POST',
+        body: JSON.stringify(newProject),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+      let json = await response.json();
+      console.log('Success:', JSON.stringify(json));
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    resetForm(e);
     alert("Form has been submitted");
   }
 
