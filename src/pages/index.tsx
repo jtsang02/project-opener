@@ -177,7 +177,6 @@ export default function ({ }: { project: Project }) {
     };
 
     // SEND DATA TO DATABASE HERE
-    console.log(newProject);
     try {
       let response = await fetch('/api/addProject', {
         method: 'POST',

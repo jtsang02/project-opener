@@ -8,7 +8,7 @@ export default async function addProject(
     const client = await clientPromise;
     const db = client.db("project-opener");
     console.log(req.body);
-    const project = JSON.parse(req.body); 
+    const project = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const result = await db.collection("projects").insertOne(project);
     res.status(200).json(result);
   } catch (error) {
