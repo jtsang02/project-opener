@@ -176,9 +176,8 @@ export default function ({ }: { project: Project }) {
       notes: notes
     };
 
-    // SEND DATA TO DATABASE HERE
     try {
-      let response = await fetch('/api/addProject', {
+      let response = await fetch('/api/project', {
         method: 'POST',
         body: JSON.stringify(newProject),
         headers: {
