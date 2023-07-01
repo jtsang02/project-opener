@@ -13,16 +13,17 @@ export default function ProjectPage() {
         fetch(`/api/project/${"?id="+id}`)
             .then(res => res.json())
             .then(project => {
-                return setProject(project);
+                if (project) {
+                    setProject(project);
+                }
             });
-        console.log(project);
     }, [id]);
 
     return (
         <div className="min-h-screen bg-gray-100 py-6 flex flex-col sm:py-12">
             <Header props={{
-                heading: "Project View",
-                paragraph: "",
+                heading: project?.name || "Project",
+                paragraph: project?.address || "Project address",
                 linkurl: "/admin",
                 linkName: "Return to Admin"
             }} />
