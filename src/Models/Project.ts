@@ -30,6 +30,7 @@ interface Project {
     internalContact: internalContact;
     dueDate: Date;
     notes: string; 
+    status: string;
 };
 
 export default Project;

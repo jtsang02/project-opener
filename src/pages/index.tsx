@@ -174,7 +174,8 @@ export default function ({ }: { project: Project }) {
         techSupport2: techSupport2
       },
       dueDate: dueDate,
-      notes: notes
+      notes: notes,
+      status: "Open" // default status
     };
 
     try {
