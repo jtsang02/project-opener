@@ -10,10 +10,13 @@ export default function ProjectPage() {
     const [project, setProject]  = useState<Project>();
 
     useEffect(() => {
-        fetch(`/api/projects/${id}`)
+        fetch(`/api/project/${"?id="+id}`)
             .then(res => res.json())
-            .then(project => setProject(project));
-    }, []);
+            .then(project => {
+                return setProject(project);
+            });
+        console.log(project);
+    }, [id]);
 
     return (
         <div className="min-h-screen bg-gray-100 py-6 flex flex-col sm:py-12">
