@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Header from "@/Components/Header";
 import Project from "@/Models/Project";
+import Link from "next/link";
 
-export default function Form() {
+export default function AdminPage() {
 
     //call the api
     const [projects, setProjects] = useState<Project[]>([]);
@@ -51,7 +52,9 @@ export default function Form() {
                                                 <div className="flex items-center">
                                                     <div className="ml-4">
                                                         <div className="text-sm font-medium text-gray-900">
-                                                            {project.name}
+                                                            <Link href={`/projects/${project._id}`}>
+                                                                <a>{project.name}</a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                 </div>

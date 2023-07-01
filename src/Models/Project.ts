@@ -20,15 +20,16 @@ interface internalContact {
 };
 
 interface Project {
+    _id: string;
     name: string;
     address: string;
-    classification: string[]; // this will be a dropdown or radio button
+    classification: string[]; 
     client: Client;
     careOfClient: Client; // optional
     accounting: Accounting;
     internalContact: internalContact;
     dueDate: Date;
-    notes: string; // this will be a dropdown or radio button
+    notes: string; 
 };
 
 export default Project;
