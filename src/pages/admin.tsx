@@ -4,6 +4,7 @@ import Project from "@/Models/Project";
 import Link from "next/link";
 import Select from "react-select";
 import { BsFillTrashFill } from "react-icons/bs";
+import { statuses } from "@/Data/Status";
 
 export default function AdminPage() {
 
@@ -14,7 +15,7 @@ export default function AdminPage() {
         fetch('/api/projects')
             .then(res => res.json())
             .then(projects => setProjects(projects));
-    }, []);
+    }, [projects]);
 
     //create a function to delete a project
     const deleteProject = (id: string) => {
@@ -36,7 +37,7 @@ export default function AdminPage() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(details)
-        }).then(res => res.json())
+        }).then(res => res.json())        
     }
 
     return (
@@ -52,20 +53,18 @@ export default function AdminPage() {
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                            <table className="min-w-full divide-y divide-gray-200">
+                            <table className="min-w-full divide-y divide-gray-200 max-lg">
                                 <thead className="bg-gray-50">
                                     <tr>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Project Name
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Project Address
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Principal
-                                        </th>
+
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Status
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Open Email
                                         </th>
                                         <th scope="col" className="relative px-6 py-3">
                                             <span className="sr-only">Delete</span>
@@ -78,23 +77,13 @@ export default function AdminPage() {
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center">
                                                     <div className="ml-4">
-                                                        <div className="text-sm font-medium text-gray-900">
+                                                        <div className="text-sm font-medium text-gray-900 hover:text-blue-700">
                                                             <Link href={`/projects/${project._id}`}>
                                                                 <a>{project.name}</a>
                                                             </Link>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-
-                                                <div className="text-sm text-gray-900">{project.address}</div>
-
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                    {project.internalContact.principal}
-                                                </span>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className="">                                                
@@ -104,16 +93,44 @@ export default function AdminPage() {
                                                     defaultValue={{ label: project.status, value: project.status }}
                                                     isSearchable={false}
                                                     name="color"
-                                                    options={[
-                                                        { label: "Open", value: "Open" },
-                                                        { label: "Pending", value: "Pending" },
-                                                        { label: "Closed", value: "Closed" }
-                                                    ]}
-                                                    onChange={(e) => {
-                                                        updateProject(project._id, { status: e?.value });
+                                                    options={statuses}                                                
+                                                    onChange={(e) => updateProject(project._id, { status: e?.value })}                                       
+                                                    styles={{
+                                                        control: (provided, state) => ({
+                                                            ...provided,
+                                                            backgroundColor: 'white',
+                                                            borderColor: state.isFocused ? '#2563EB' : '#E5E7EB',
+                                                            boxShadow: state.isFocused ? '0 0 0 1px #2563EB' : 'none',
+                                                            '&:hover': {
+                                                                borderColor: state.isFocused ? '#2563EB' : '#E5E7EB'
+                                                            }
+                                                        }),
+                                                        singleValue: (base) => ({
+                                                            ...base,
+                                                            color: statuses.filter(status => status.value === project.status)[0].textColor,
+                                                            backgroundColor: statuses.filter(status => status.value === project.status)[0].color                                                      ,
+                                                            borderRadius: '9999px',
+                                                            padding: '0.25rem 0.75rem',
+                                                            display: 'inline-flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            fontSize: '0.875rem',
+                                                            lineHeight: '1.25rem',
+                                                            fontWeight: '500',
+                                                            maxWidth: '100%',
+                                                        }),
                                                     }}
                                                 />
                                                 </span>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <button 
+                                                    className="mt-1 text-sm font-medium bg-slate-300 rounded-xl py-1 px-3 text-stone-800 hover:text-black-900 hover:bg-blue-400 hover:cursor-pointer"
+                                                    disabled={project.status === "Open" ? false : true}
+                                                    onClick={() => updateProject(project._id, { status: "Closed" })}    // change to send email function
+                                                    >
+                                                    Send
+                                                </button>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <div className="text-red-600 hover:text-red-900">
