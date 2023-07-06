@@ -5,6 +5,7 @@ import Link from "next/link";
 import Select from "react-select";
 import { BsFillTrashFill } from "react-icons/bs";
 import { statuses } from "@/Data/Status";
+import { formatDate, compareDates } from "@/Utils/dates";
 
 export default function AdminPage() {
 
@@ -37,7 +38,7 @@ export default function AdminPage() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(details)
-        }).then(res => res.json())        
+        }).then(res => res.json())
     }
 
     return (
@@ -63,8 +64,11 @@ export default function AdminPage() {
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Status
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Open Email
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Due Date
                                         </th>
                                         <th scope="col" className="relative px-6 py-3">
                                             <span className="sr-only">Delete</span>
@@ -86,51 +90,58 @@ export default function AdminPage() {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="">                                                
-                                                <Select
-                                                    className="basic-single"
-                                                    classNamePrefix="select"
-                                                    defaultValue={{ label: project.status, value: project.status }}
-                                                    isSearchable={false}
-                                                    name="color"
-                                                    options={statuses}                                                
-                                                    onChange={(e) => updateProject(project._id, { status: e?.value })}                                       
-                                                    styles={{
-                                                        control: (provided, state) => ({
-                                                            ...provided,
-                                                            backgroundColor: 'white',
-                                                            borderColor: state.isFocused ? '#2563EB' : '#E5E7EB',
-                                                            boxShadow: state.isFocused ? '0 0 0 1px #2563EB' : 'none',
-                                                            '&:hover': {
-                                                                borderColor: state.isFocused ? '#2563EB' : '#E5E7EB'
-                                                            }
-                                                        }),
-                                                        singleValue: (base) => ({
-                                                            ...base,
-                                                            color: statuses.filter(status => status.value === project.status)[0].textColor,
-                                                            backgroundColor: statuses.filter(status => status.value === project.status)[0].color                                                      ,
-                                                            borderRadius: '9999px',
-                                                            padding: '0.25rem 0.75rem',
-                                                            display: 'inline-flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            fontSize: '0.875rem',
-                                                            lineHeight: '1.25rem',
-                                                            fontWeight: '500',
-                                                            maxWidth: '100%',
-                                                        }),
-                                                    }}
-                                                />
+                                                <span className="">
+                                                    <Select
+                                                        className="basic-single"
+                                                        classNamePrefix="select"
+                                                        defaultValue={{ label: project.status, value: project.status }}
+                                                        isSearchable={false}
+                                                        name="color"
+                                                        options={statuses}
+                                                        onChange={(e) => updateProject(project._id, { status: e?.value })}
+                                                        styles={{
+                                                            control: (provided, state) => ({
+                                                                ...provided,
+                                                                backgroundColor: 'white',
+                                                                borderColor: state.isFocused ? '#2563EB' : '#E5E7EB',
+                                                                boxShadow: state.isFocused ? '0 0 0 1px #2563EB' : 'none',
+                                                                '&:hover': {
+                                                                    borderColor: state.isFocused ? '#2563EB' : '#E5E7EB'
+                                                                }
+                                                            }),
+                                                            singleValue: (base) => ({
+                                                                ...base,
+                                                                color: statuses.filter(status => status.value === project.status)[0].textColor,
+                                                                backgroundColor: statuses.filter(status => status.value === project.status)[0].color,
+                                                                borderRadius: '9999px',
+                                                                padding: '0.25rem 0.75rem',
+                                                                display: 'inline-flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center',
+                                                                fontSize: '0.875rem',
+                                                                lineHeight: '1.25rem',
+                                                                fontWeight: '500',
+                                                                maxWidth: '100%',
+                                                            }),
+                                                        }}
+                                                    />
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <button 
-                                                    className="mt-1 text-sm font-medium bg-slate-300 rounded-xl py-1 px-3 text-stone-800 hover:text-black-900 hover:bg-blue-400 hover:cursor-pointer"
+                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                                <button
+                                                    className="mt-1 text-sm font-medium bg-green-300 rounded-xl py-1 px-3 text-green-800 hover:text-black-900 hover:bg-green-400 hover:cursor-pointer"
                                                     disabled={project.status === "Open" ? false : true}
                                                     onClick={() => updateProject(project._id, { status: "Closed" })}    // change to send email function
-                                                    >
+                                                >
                                                     Send
                                                 </button>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                                <div className={`text-sm font-medium ${
+                                                    !compareDates(project.dueDate, new Date()) ? "text-red-600" : "text-gray-900"
+                                                } `}>{
+                                                    project.dueDate ? formatDate(project.dueDate) : "No Due Date"
+                                                }</div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <div className="text-red-600 hover:text-red-900">
