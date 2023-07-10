@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Header from "@/Components/Header";
 import Project from "@/Models/Project";
 import Link from "next/link";
@@ -6,6 +6,7 @@ import Select from "react-select";
 import { BsFillTrashFill } from "react-icons/bs";
 import { statuses } from "@/Data/Status";
 import { formatDate, compareDates } from "@/Utils/dates";
+import sortProjects from "@/Utils/sortProjects";
 
 export default function AdminPage() {
 
@@ -16,6 +17,12 @@ export default function AdminPage() {
         fetch('/api/projects')
             .then(res => res.json())
             .then(projects => setProjects(projects));
+    }, []);
+
+    // // use the useEffect hook to trigger a re-render when the projects array changes
+    useEffect(() => {
+        let sorted = sortProjects(projects);
+        setProjects(sorted);
     }, [projects]);
 
     //create a function to delete a project
@@ -39,6 +46,12 @@ export default function AdminPage() {
             },
             body: JSON.stringify(details)
         }).then(res => res.json())
+            .then(project => {
+                if (project) {  //if the project is updated, update the projects array
+                    setProjects(projects.map(project => project._id === id ? { ...project, ...details } : project));
+                }
+            }
+            );
     }
 
     return (
@@ -60,18 +73,17 @@ export default function AdminPage() {
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Project Name
                                         </th>
-
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Status
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Open Email
+                                            Send Email
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Due Date
                                         </th>
-                                        <th scope="col" className="relative px-6 py-3">
-                                            <span className="sr-only">Delete</span>
+                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Delete
                                         </th>
                                     </tr>
                                 </thead>
@@ -98,7 +110,9 @@ export default function AdminPage() {
                                                         isSearchable={false}
                                                         name="color"
                                                         options={statuses}
-                                                        onChange={(e) => updateProject(project._id, { status: e?.value })}
+                                                        onChange={
+                                                            (e) => updateProject(project._id, { status: e?.value })
+                                                        }
                                                         styles={{
                                                             control: (provided, state) => ({
                                                                 ...provided,
@@ -131,19 +145,33 @@ export default function AdminPage() {
                                                 <button
                                                     className="mt-1 text-sm font-medium bg-green-300 rounded-xl py-1 px-3 text-green-800 hover:text-black-900 hover:bg-green-400 hover:cursor-pointer"
                                                     disabled={project.status === "Open" ? false : true}
-                                                    onClick={() => updateProject(project._id, { status: "Closed" })}    // change to send email function
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        // call the sendEmail function
+                                                        fetch(`/api/sendEmail/${"?id=" + project._id}`, {
+                                                            method: 'POST',
+                                                            headers: {
+                                                                'Content-Type': 'application/json'
+                                                                },
+                                                                body: JSON.stringify(project)
+                                                            }).then(res => res.json())
+                                                            .then(data => {
+                                                                if (data) {
+                                                                    alert("Email sent!");
+                                                                }
+                                                            });
+                                                    }}
                                                 >
                                                     Send
                                                 </button>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                <div className={`text-sm font-medium ${
-                                                    !compareDates(project.dueDate, new Date()) ? "text-red-600" : "text-gray-900"
-                                                } `}>{
-                                                    project.dueDate ? formatDate(project.dueDate) : "No Due Date"
-                                                }</div>
+                                                <div className={`text-sm font-medium ${!compareDates(project.dueDate, new Date()) ? "text-red-600" : "text-gray-900"
+                                                    } `}>{
+                                                        project.dueDate ? formatDate(project.dueDate) : "No Due Date"
+                                                    }</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                                 <div className="text-red-600 hover:text-red-900">
                                                     <button onClick={() => deleteProject(project._id)}>
                                                         <BsFillTrashFill />
