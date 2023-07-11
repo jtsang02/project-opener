@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
+import OpenEmail from '@/Components/OpenEmail';
 
-export default async function handler (
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -18,18 +19,20 @@ export default async function handler (
       }
     });
 
+    const props: {
+      message: string;
+      adminAssigned: string;
+    } = {
+      message: message,
+      adminAssigned: adminAssigned
+    };
+
     // Define the email options
     const mailOptions = {
       from: 'jtsang13@hotmail.com', // change to GHL Admin
       to: recipients,
-      subject: `New Project Opened ${prjNumber}`,
-      text: `The following project is now opened.
-    
-      ${message}
-      
-      \n\Regards,\n\n
-      
-      ${adminAssigned}`,
+      subject: `New Project Opened: ${prjNumber}`,
+      html: OpenEmail(message)
     };
 
     try {
