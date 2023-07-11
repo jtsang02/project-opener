@@ -7,9 +7,6 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { statuses } from "@/Data/Status";
 import { formatDate, compareDates } from "@/Utils/dates";
 import sortProjects from "@/Utils/sortProjects";
-import OpenEmailTemplate from "@/email/openEmailTemplate";
-import ReactDOMServer from 'react-dom/server';
-
 
 export default function AdminPage() {
 
@@ -59,13 +56,6 @@ export default function AdminPage() {
 
     // function to handle sending email
     const handleSendEmail = (e: any, project: Project) => {
-
-        // Render the EmailTemplate component to obtain HTML content
-        const emailHTML = ReactDOMServer.renderToStaticMarkup (
-            <OpenEmailTemplate name={project.name} message={project.prjNumber} />
-        );
-
-        // call the sendEmail function
         e.preventDefault();
         fetch(`/api/sendEmail/${"?id=" + project._id}`, {
             method: 'POST',
@@ -73,7 +63,7 @@ export default function AdminPage() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                recipients: project.internalContact.principal,
+                recipients: project.internalContact.principal, // todo: write util function
                 prjNumber: project.prjNumber,
                 message: ' ', // todo: complete
                 adminAssigned: project.adminAssigned
