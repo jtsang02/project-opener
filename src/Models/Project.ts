@@ -29,8 +29,11 @@ interface Project {
     accounting: Accounting;
     internalContact: internalContact;
     dueDate: Date;
+    createdDate: Date;
     notes: string; 
     status: string;
+    adminAssigned: string;  // not in form
+    prjNumber: string;      // not in form    
 };
 
 export default Project;

@@ -173,6 +173,7 @@ export default function ({ }: { project: Project }) {
         techSupport2: techSupport2
       },
       dueDate: dueDate,
+      createdDate: new Date(),
       notes: notes,
       status: "Open" // default status
     };
