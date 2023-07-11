@@ -6,24 +6,30 @@ export default async function handler (
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const { name, email, message } = req.body;
+    const { recipients, prjNumber, message, adminAssigned } = req.body;
 
     // Create a Nodemailer transporter
     const transporter = nodemailer.createTransport({
       // Set up your email service provider configuration here
-      service: 'Gmail',
+      service: 'Outlook',
       auth: {
-        user: 'jtstripes95@gmail.com',
-        pass: 'grad13Josiah',
+        user: 'jtsang13@hotmail.com', // change to GHL Admin
+        pass: 'grad13Jo',             // change to GHL Admin password
       }
     });
 
     // Define the email options
     const mailOptions = {
-      from: 'jtstripes95@gmail.com',
-      to: email,
-      subject: 'Thank you for contacting us',
-      text: `Hi ${name},\n\nThank you for your message: ${message}\n\nBest regards,\nYour Company`,
+      from: 'jtsang13@hotmail.com', // change to GHL Admin
+      to: recipients,
+      subject: `New Project Opened ${prjNumber}`,
+      text: `The following project is now opened.
+    
+      ${message}
+      
+      \n\Regards,\n\n
+      
+      ${adminAssigned}`,
     };
 
     try {

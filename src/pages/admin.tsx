@@ -7,6 +7,9 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { statuses } from "@/Data/Status";
 import { formatDate, compareDates } from "@/Utils/dates";
 import sortProjects from "@/Utils/sortProjects";
+import OpenEmailTemplate from "@/email/openEmailTemplate";
+import ReactDOMServer from 'react-dom/server';
+
 
 export default function AdminPage() {
 
@@ -52,6 +55,35 @@ export default function AdminPage() {
                 }
             }
             );
+    }
+
+    // function to handle sending email
+    const handleSendEmail = (e: any, project: Project) => {
+
+        // Render the EmailTemplate component to obtain HTML content
+        const emailHTML = ReactDOMServer.renderToStaticMarkup (
+            <OpenEmailTemplate name={project.name} message={project.prjNumber} />
+        );
+
+        // call the sendEmail function
+        e.preventDefault();
+        fetch(`/api/sendEmail/${"?id=" + project._id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                recipients: project.internalContact.principal,
+                prjNumber: project.prjNumber,
+                message: ' ', // todo: complete
+                adminAssigned: project.adminAssigned
+            })
+        }).then(res => res.json())
+            .then(data => {
+                if (data) {
+                    alert("Email sent!");
+                }
+            });
     }
 
     return (
@@ -145,22 +177,7 @@ export default function AdminPage() {
                                                 <button
                                                     className="mt-1 text-sm font-medium bg-green-300 rounded-xl py-1 px-3 text-green-800 hover:text-black-900 hover:bg-green-400 hover:cursor-pointer"
                                                     disabled={project.status === "Open" ? false : true}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        // call the sendEmail function
-                                                        fetch(`/api/sendEmail/${"?id=" + project._id}`, {
-                                                            method: 'POST',
-                                                            headers: {
-                                                                'Content-Type': 'application/json'
-                                                                },
-                                                                body: JSON.stringify(project)
-                                                            }).then(res => res.json())
-                                                            .then(data => {
-                                                                if (data) {
-                                                                    alert("Email sent!");
-                                                                }
-                                                            });
-                                                    }}
+                                                    onClick={(e) => { handleSendEmail(e, project) }}
                                                 >
                                                     Send
                                                 </button>
