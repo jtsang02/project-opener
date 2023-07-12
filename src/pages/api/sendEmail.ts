@@ -22,9 +22,11 @@ export default async function handler(
     const props: {
       message: string;
       adminAssigned: string;
+      prjNumber: string;
     } = {
       message: message,
-      adminAssigned: adminAssigned
+      adminAssigned: adminAssigned,
+      prjNumber: prjNumber
     };
 
     // Define the email options
@@ -32,7 +34,7 @@ export default async function handler(
       from: 'jtsang13@hotmail.com', // change to GHL Admin
       to: recipients,
       subject: `New Project Opened: ${prjNumber}`,
-      html: OpenEmail(message)
+      html: OpenEmail({ props })
     };
 
     try {

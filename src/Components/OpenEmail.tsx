@@ -2,17 +2,16 @@ export default function OpenEmail ({ props } : {
   props: {
     message: string;
     adminAssigned: string;
+    prjNumber: string;
   };
 }) {
 
-  const {message, adminAssigned } = props;
-
   return (
     `<div>
-      <p>Dear John,</p>
-      <p>Thank you for your message: ${message}</p>
+      <p>The following project is open: ${props.prjNumber}</p>
+      <p>${props.message}</p>
       <p>Best regards,</p>
-      <p>Admin Personel</p>
+      <p>${props.adminAssigned}</p>
     </div>`
   );
 };
