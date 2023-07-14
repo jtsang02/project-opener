@@ -3,7 +3,7 @@ import Project from "@/Models/Project";
 import { classification } from "@/Data/Classification";
 import { feeCategories } from "@/Data/FeeCategories";
 import { contractTypes } from "@/Data/ContractTypes";
-import { staff } from "@/Data/Staff";
+import Staff from "@/Data/Staff";
 import Header from "@/Components/Header";
 import InputField from "@/Components/InputField";
 import { Checkbox, Radio, Button } from "@material-tailwind/react";
@@ -175,7 +175,8 @@ export default function ({ }: { project: Project }) {
       dueDate: dueDate,
       createdDate: new Date(),
       notes: notes,
-      status: "Open" // default status
+      status: "Open", // default status
+      prjNumber: "-"
     };
 
     try {
@@ -426,7 +427,7 @@ export default function ({ }: { project: Project }) {
                     name="principal"
                     placeholder="Select a principal"
                     options={
-                      staff.filter((item) => item.role === "principal").map((item) => ({
+                      Staff.filter((item) => item.role === "principal").map((item) => ({
                         value: item.initials,
                         label: item.name
                       }))
@@ -448,7 +449,7 @@ export default function ({ }: { project: Project }) {
                     name="projectManager"
                     placeholder="select a project manager"
                     options={
-                      staff.filter((item) => item.role !== "admin").map((item) => ({
+                      Staff.filter((item) => item.role !== "admin").map((item) => ({
                         value: item.initials,
                         label: item.name
                       }))
@@ -470,7 +471,7 @@ export default function ({ }: { project: Project }) {
                     name="techSupport1"
                     placeholder="select a tech support"
                     options={
-                      staff.filter((item) => item.role !== "admin").map((item) => ({
+                      Staff.filter((item) => item.role !== "admin").map((item) => ({
                         value: item.initials,
                         label: item.name
                       }))
@@ -490,7 +491,7 @@ export default function ({ }: { project: Project }) {
                     name="techSupport2"
                     placeholder="select a tech support"
                     options={
-                      staff.filter((item) => item.role !== "admin").map((item) => ({
+                      Staff.filter((item) => item.role !== "admin").map((item) => ({
                         value: item.initials,
                         label: item.name
                       }))
