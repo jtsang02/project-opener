@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "@/Components/Header";
 import Project from "@/Models/Project";
 import Link from "next/link";
@@ -7,10 +7,10 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { statuses } from "@/Data/Status";
 import { formatDate, compareDates } from "@/Utils/dates";
 import sortProjects from "@/Utils/sortProjects";
+import emailRecipients from "@/Utils/emailRecipients";
 
 export default function AdminPage() {
 
-    //call the api
     const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
@@ -57,21 +57,29 @@ export default function AdminPage() {
     // function to handle sending email
     const handleSendEmail = (e: any, project: Project) => {
         e.preventDefault();
-        fetch(`/api/sendEmail/${"?id=" + project._id}`, {
+
+        // join the project internalcontacts into an array of strings
+        const projectContactInitials = [];
+        projectContactInitials.push(project.internalContact.principal);
+        projectContactInitials.push(project.internalContact.projectManager);
+        projectContactInitials.push(project.internalContact.techSupport1);
+
+        console.log(projectContactInitials);
+        console.log(emailRecipients(projectContactInitials));
+
+        fetch('/api/sendEmail/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                recipients: project.internalContact.principal, // todo: write util function
-                prjNumber: project.prjNumber,
-                message: ' ', // todo: complete
-                adminAssigned: project.adminAssigned
+                recipients: emailRecipients(projectContactInitials),
+                project: project
             })
         }).then(res => res.json())
             .then(data => {
                 if (data) {
-                    alert("Email sent!");
+                    alert("Email sent!"); 
                 }
             });
     }
@@ -165,8 +173,9 @@ export default function AdminPage() {
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-center">
                                                 <button
-                                                    className="mt-1 text-sm font-medium bg-green-300 rounded-xl py-1 px-3 text-green-800 hover:text-black-900 hover:bg-green-400 hover:cursor-pointer"
-                                                    disabled={project.status === "Open" ? false : true}
+                                                    className={`mt-1 text-sm font-medium bg-green-300 rounded-xl py-1 px-3 text-green-800 hover:text-black-900 hover:bg-green-400 
+                                                    ${project.prjNumber === "-" ? "cursor-not-allowed opacity-50" : ""}`}
+                                                    disabled = {project.prjNumber === "-"}
                                                     onClick={(e) => { handleSendEmail(e, project) }}
                                                 >
                                                     Send
