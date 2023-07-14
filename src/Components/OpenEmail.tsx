@@ -11,9 +11,7 @@ export default function OpenEmail ({ props } : {
       <p>The following project is open: ${props.project.prjNumber}</p>
       <p>Project Name: ${props.project.name}<br>
       Project Address: ${props.project.address}<br>
-      Classification: ${
-        props.project.classification.join(", ")
-      }<br></p>
+      Classification: ${props.project.classification.join(", ")}<br></p>
       <p>Principal: ${props.project.internalContact.principal}<br>
       Project Manager: ${props.project.internalContact.projectManager}<br>
       Tech Suppport: ${props.project.internalContact.techSupport1}<br></p>
