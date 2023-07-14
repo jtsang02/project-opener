@@ -1,17 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 import OpenEmail from '@/Components/OpenEmail';
+import Project from '@/Models/Project';
 
-export default async function handler(
+export default async function handler (
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const { recipients, prjNumber, message, adminAssigned } = req.body;
+    const { recipients, project } = req.body;
 
     // Create a Nodemailer transporter
     const transporter = nodemailer.createTransport({
-      // Set up your email service provider configuration here
+      // Set up email service provider configuration here
       service: 'Outlook',
       auth: {
         user: 'jtsang13@hotmail.com', // change to GHL Admin
@@ -20,20 +21,16 @@ export default async function handler(
     });
 
     const props: {
-      message: string;
-      adminAssigned: string;
-      prjNumber: string;
+      project: Project;
     } = {
-      message: message,
-      adminAssigned: adminAssigned,
-      prjNumber: prjNumber
+      project: project
     };
 
     // Define the email options
     const mailOptions = {
       from: 'jtsang13@hotmail.com', // change to GHL Admin
       to: recipients,
-      subject: `New Project Opened: ${prjNumber}`,
+      subject: `New Project Opened: ${props.project.name} (GHL ${props.project.prjNumber})`,
       html: OpenEmail({ props })
     };
 
