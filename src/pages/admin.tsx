@@ -57,15 +57,11 @@ export default function AdminPage() {
     // function to handle sending email
     const handleSendEmail = (e: any, project: Project) => {
         e.preventDefault();
-
         // join the project internalcontacts into an array of strings
         const projectContactInitials = [];
         projectContactInitials.push(project.internalContact.principal);
         projectContactInitials.push(project.internalContact.projectManager);
         projectContactInitials.push(project.internalContact.techSupport1);
-
-        console.log(projectContactInitials);
-        console.log(emailRecipients(projectContactInitials));
 
         fetch('/api/sendEmail/', {
             method: 'POST',
@@ -79,7 +75,7 @@ export default function AdminPage() {
         }).then(res => res.json())
             .then(data => {
                 if (data) {
-                    alert("Email sent!"); 
+                    alert("Email sent!");
                 }
             });
     }
@@ -93,6 +89,10 @@ export default function AdminPage() {
                 linkName: "Return to Form"
             }} />
 
+            <h1 className="text-xl font-bold mb-2 content">
+                Project Opening Requests ({projects.length}) 
+            </h1>
+
             <div className="flex flex-col">
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -101,17 +101,33 @@ export default function AdminPage() {
                                 <thead className="bg-gray-50">
                                     <tr>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Prj #
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Project Name
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Project Address
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Deadline
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Client
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            PIC/PM
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Requested Date
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Status
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Send Email
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Due Date
-                                        </th>
+
                                         <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Delete
                                         </th>
@@ -121,15 +137,41 @@ export default function AdminPage() {
                                     {projects.map((project) => (
                                         <tr key={project.name}>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                    <div className="ml-4">
-                                                        <div className="text-sm font-medium text-gray-900 hover:text-blue-700">
-                                                            <Link href={`/projects/${project._id}`}>
-                                                                <a>{project.name}</a>
-                                                            </Link>
-                                                        </div>
-                                                    </div>
+                                                <div className="text-sm text-gray-900">{project.prjNumber}</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="text-sm font-medium text-gray-900 hover:text-blue-700">
+                                                    <Link href={`/projects/${project._id}`}>
+                                                        <a>{project.name}</a>
+                                                    </Link>
                                                 </div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-left">
+                                                <div className='text-sm text-gray-900'>{
+                                                    project.address
+                                                }</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                                <div className={`text-sm font-medium ${!compareDates(project.dueDate, new Date()) ? " text-red-600" : "text-gray-900"
+                                                    } `}>{
+                                                        project.dueDate ? formatDate(project.dueDate) : "No Due Date"
+                                                    }</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-left">
+                                                <div className='text-sm text-gray-900'>{
+                                                    project.client.name
+                                                }</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                                <div className='text-sm font-medium text-gray-900'>{
+                                                    project.internalContact.principal + " / " + project.internalContact.projectManager
+                                                }</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                                <div className={`text-sm font-medium text-gray-900"
+                                                    } `}>{
+                                                        project.createdDate ? formatDate(project.createdDate) : " - "
+                                                    }</div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className="">
@@ -175,18 +217,13 @@ export default function AdminPage() {
                                                 <button
                                                     className={`mt-1 text-sm font-medium bg-green-300 rounded-xl py-1 px-3 text-green-800 hover:text-black-900 hover:bg-green-400 
                                                     ${project.prjNumber === "-" ? "cursor-not-allowed opacity-50" : ""}`}
-                                                    disabled = {project.prjNumber === "-"}
+                                                    disabled={project.prjNumber === "-"}
                                                     onClick={(e) => { handleSendEmail(e, project) }}
                                                 >
                                                     Send
                                                 </button>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                <div className={`text-sm font-medium ${!compareDates(project.dueDate, new Date()) ? "text-red-600" : "text-gray-900"
-                                                    } `}>{
-                                                        project.dueDate ? formatDate(project.dueDate) : "No Due Date"
-                                                    }</div>
-                                            </td>
+
                                             <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                                 <div className="text-red-600 hover:text-red-900">
                                                     <button onClick={() => deleteProject(project._id)}>
