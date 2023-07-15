@@ -1,7 +1,7 @@
-function formatDate(date: Date) {
-    // format date to yyyy-mm-dd format and return as string
-    return date.toLocaleString().split('/').
-    reverse().join('-').split('T')[0];
+import moment from 'moment';
+
+function formatDate(dateString: string | Date) {
+    return moment(dateString).format('MMMM D, YYYY');
 }
 
 function compareDates(date1: Date, date2: Date) {
