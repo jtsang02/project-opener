@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import Link from "next/link";
 import Project from "@/Models/Project";
 import { classification } from "@/Data/Classification";
 import { feeCategories } from "@/Data/FeeCategories";
@@ -122,13 +123,13 @@ export default function ({ }: { project: Project }) {
     projectManagerRef.current?.clearValue();
     techSupport1Ref.current?.clearValue();
     techSupport2Ref.current?.clearValue();
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // reset the form
   const handleReset = async (e: any) => {
     e.preventDefault();
     resetForm(e);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     alert("Form has been reset");
   }
 
@@ -193,7 +194,6 @@ export default function ({ }: { project: Project }) {
       console.error('Error:', error);
     }
     resetForm(e);
-    alert("Form has been submitted");
   }
 
   return (
@@ -526,7 +526,6 @@ export default function ({ }: { project: Project }) {
                     onChange={(e) => setNotes(e.target.value || "")}
                   ></textarea>
                 </label>
-
                 <div className="flex-col-2">
                   <Button
                     ripple={true}
@@ -534,7 +533,9 @@ export default function ({ }: { project: Project }) {
                     disabled={!formValid}
                     onClick={handleSubmit}
                   >
-                    Submit
+                    <Link href='/submitted'>
+                      Submit
+                    </Link>
                   </Button>
                   <Button
                     ripple={true}
