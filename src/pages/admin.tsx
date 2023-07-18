@@ -4,14 +4,17 @@ import Project from "@/Models/Project";
 import Link from "next/link";
 import Select from "react-select";
 import { BsFillTrashFill } from "react-icons/bs";
+import { FaEdit } from "react-icons/fa";
 import { statuses } from "@/Data/Status";
 import { formatDate, compareDates } from "@/Utils/dates";
 import sortProjects from "@/Utils/sortProjects";
 import emailRecipients from "@/Utils/emailRecipients";
+import Modal from "@/Components/Modal";
 
 export default function AdminPage() {
 
     const [projects, setProjects] = useState<Project[]>([]);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         fetch('/api/projects')
@@ -82,6 +85,7 @@ export default function AdminPage() {
 
     return (
         <div className="min-h-screen bg-gray-100 py-6 flex flex-col sm:py-12">
+
             <Header props={{
                 heading: "Admin View",
                 paragraph: "",
@@ -90,8 +94,9 @@ export default function AdminPage() {
             }} />
 
             <h1 className="text-xl font-bold mb-2 content">
-                Project Opening Requests ({projects.length}) 
+                Project Opening Requests ({projects.length})
             </h1>
+
 
             <div className="flex flex-col">
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -127,9 +132,7 @@ export default function AdminPage() {
                                         <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Send Email
                                         </th>
-
                                         <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Delete
                                         </th>
                                     </tr>
                                 </thead>
@@ -223,10 +226,19 @@ export default function AdminPage() {
                                                     Send
                                                 </button>
                                             </td>
-
                                             <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                                <div className="text-red-600 hover:text-red-900">
-                                                    <button onClick={() => deleteProject(project._id)}>
+                                                <div className="text-base">
+                                                <button 
+                                                    className="mr-1 text-blue-600 hover:text-blue-900"
+                                                    onClick={() => setShowModal(true)}><FaEdit /></button>
+                                                    {showModal &&
+                                                        <Modal onClose={() => setShowModal(false)}>
+                                                            edit modal here                                                                                                                       
+                                                        </Modal>
+                                                    }
+                                                    <button 
+                                                        className="ml-1 text-red-600 hover:text-red-900"
+                                                        onClick={() => deleteProject(project._id)}>
                                                         <BsFillTrashFill />
                                                     </button>
                                                 </div>
