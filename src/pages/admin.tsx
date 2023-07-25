@@ -6,6 +6,7 @@ import Select from "react-select";
 import { BsFillTrashFill } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { statuses } from "@/Data/Status";
+import Staff from "@/Data/Staff";
 import { formatDate, compareDates } from "@/Utils/dates";
 import sortProjects from "@/Utils/sortProjects";
 import emailRecipients from "@/Utils/emailRecipients";
@@ -14,7 +15,15 @@ import Modal from "@/Components/Modal";
 export default function AdminPage() {
 
     const [projects, setProjects] = useState<Project[]>([]);
-    const [showModal, setShowModal] = useState(false);
+    const [projectModalStates, setProjectModalStates] = useState<{ [id: string]: boolean }>({}); // state to track showModal for each project
+
+    // Function to toggle the showModal state for a specific project
+    const toggleModal = (projectId: string) => {
+        setProjectModalStates((prevStates) => ({
+            ...prevStates,
+            [projectId]: !prevStates[projectId],
+        }));
+    };
 
     useEffect(() => {
         fetch('/api/projects')
@@ -177,43 +186,11 @@ export default function AdminPage() {
                                                     }</div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="">
-                                                    <Select
-                                                        className="basic-single"
-                                                        classNamePrefix="select"
-                                                        defaultValue={{ label: project.status, value: project.status }}
-                                                        isSearchable={false}
-                                                        name="color"
-                                                        options={statuses}
-                                                        onChange={
-                                                            (e) => updateProject(project._id, { status: e?.value })
-                                                        }
-                                                        styles={{
-                                                            control: (provided, state) => ({
-                                                                ...provided,
-                                                                backgroundColor: 'white',
-                                                                borderColor: state.isFocused ? '#2563EB' : '#E5E7EB',
-                                                                boxShadow: state.isFocused ? '0 0 0 1px #2563EB' : 'none',
-                                                                '&:hover': {
-                                                                    borderColor: state.isFocused ? '#2563EB' : '#E5E7EB'
-                                                                }
-                                                            }),
-                                                            singleValue: (base) => ({
-                                                                ...base,
-                                                                color: statuses.filter(status => status.value === project.status)[0].textColor,
-                                                                backgroundColor: statuses.filter(status => status.value === project.status)[0].color,
-                                                                borderRadius: '9999px',
-                                                                padding: '0.25rem 0.75rem',
-                                                                display: 'inline-flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'center',
-                                                                fontSize: '0.875rem',
-                                                                lineHeight: '1.25rem',
-                                                                fontWeight: '500',
-                                                                maxWidth: '100%',
-                                                            }),
-                                                        }}
-                                                    />
+                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                                    ${project.status === "Open" ? "bg-blue-100 text-blue-800" :
+                                                        project.status === "Pending" ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800"}
+                                                    `}>
+                                                    {project.status}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-center">
@@ -228,15 +205,107 @@ export default function AdminPage() {
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                                 <div className="text-base">
-                                                <button 
-                                                    className="mr-1 text-blue-600 hover:text-blue-900"
-                                                    onClick={() => setShowModal(true)}><FaEdit /></button>
-                                                    {showModal &&
-                                                        <Modal onClose={() => setShowModal(false)}>
-                                                            edit modal here                                                                                                                       
+                                                    <button
+                                                        className="mr-1 text-blue-600 hover:text-blue-900"
+                                                        onClick={() => toggleModal(project._id)}>
+                                                        <FaEdit />
+                                                    </button>
+                                                    {projectModalStates[project._id] &&
+                                                        <Modal onClose={() => toggleModal(project._id)}
+                                                            title={`${project.name}`}
+                                                        >
+                                                            <div>
+                                                                <div className="flex items-center mb-2">
+                                                                    <h3 className="font-semibold mr-4 w-48">Project Status</h3>
+                                                                    <Select
+                                                                        className="basic-single ml-4 w-full"
+                                                                        classNamePrefix="select"
+                                                                        defaultValue={{ label: project.status, value: project.status }}
+                                                                        isSearchable={false}
+                                                                        name="color"
+                                                                        options={statuses}
+                                                                        onChange={
+                                                                            (e) => updateProject(project._id, { status: e?.value })
+                                                                        }
+                                                                        styles={{
+                                                                            control: (provided, state) => ({
+                                                                                ...provided,
+                                                                                backgroundColor: 'white',
+                                                                                borderColor: state.isFocused ? '#2563EB' : '#E5E7EB',
+                                                                                boxShadow: state.isFocused ? '0 0 0 1px #2563EB' : 'none',
+                                                                                '&:hover': {
+                                                                                    borderColor: state.isFocused ? '#2563EB' : '#E5E7EB'
+                                                                                }
+                                                                            }),
+                                                                            singleValue: (base) => ({
+                                                                                ...base,
+                                                                                color: statuses.filter(status => status.value === project.status)[0].textColor,
+                                                                                backgroundColor: statuses.filter(status => status.value === project.status)[0].color,
+                                                                                borderRadius: '9999px',
+                                                                                padding: '0.25rem 0.75rem',
+                                                                                display: 'inline-flex',
+                                                                                alignItems: 'center',
+                                                                                justifyContent: 'center',
+                                                                                fontSize: '0.875rem',
+                                                                                lineHeight: '1.25rem',
+                                                                                fontWeight: '500',
+                                                                                maxWidth: '100%',
+                                                                            }),
+                                                                        }}
+                                                                    />
+                                                                </div>
+                                                                <div className="flex items-center mb-2">
+                                                                    <h3 className="font-semibold mr-4 w-48">Admin Assigned</h3>
+                                                                    <Select
+                                                                        className="basic-single ml-4 w-full"
+                                                                        classNamePrefix="select"
+                                                                        defaultValue={{ label: project.adminAssigned, value: project.adminAssigned }}
+                                                                        isSearchable={true}
+                                                                        name="color"
+                                                                        options={Staff.filter(staff => staff.role === "admin").map(staff => ({ label: staff.name, value: staff.name }))}
+                                                                        onChange={
+                                                                            (e) => updateProject(project._id, { adminAssigned: e?.value })
+                                                                        }
+                                                                        styles={{
+                                                                            control: (provided, state) => ({
+                                                                                ...provided,
+                                                                                color: 'black',
+                                                                                backgroundColor: 'white',
+                                                                                borderColor: state.isFocused ? '#2563EB' : '#E5E7EB',
+                                                                                boxShadow: state.isFocused ? '0 0 0 1px #2563EB' : 'none',
+                                                                                '&:hover': {
+                                                                                    borderColor: state.isFocused ? '#2563EB' : '#E5E7EB'
+                                                                                }
+                                                                            }),
+                                                                            singleValue: (base) => ({
+                                                                                ...base,
+                                                                                borderRadius: '9999px',
+                                                                                padding: '0.25rem 0.75rem',
+                                                                                display: 'inline-flex',
+                                                                                alignItems: 'center',
+                                                                                justifyContent: 'center',
+                                                                                fontSize: '0.875rem',
+                                                                                lineHeight: '1.25rem',
+                                                                                fontWeight: '500',
+                                                                                maxWidth: '100%',
+                                                                            }),
+                                                                        }}
+                                                                    />
+                                                                </div>
+                                                                <div className="flex items-center mb-2">
+                                                                    <h3 className="font-semibold mr-4 w-48">Project Number</h3>
+                                                                    <input
+                                                                        className="w-full border border-gray-300 rounded-md ml-5 py-2 pl-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                                        type="number"
+                                                                        placeholder="Project Number"
+                                                                        value={project.prjNumber}
+                                                                        onChange={(e) => updateProject(project._id, { prjNumber: e.target.value })}
+                                                                    />
+                                                                </div>
+                                                            </div>
                                                         </Modal>
                                                     }
-                                                    <button 
+                                                    <button
                                                         className="ml-1 text-red-600 hover:text-red-900"
                                                         onClick={() => deleteProject(project._id)}>
                                                         <BsFillTrashFill />
