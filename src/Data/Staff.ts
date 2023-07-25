@@ -16,6 +16,7 @@ const staff: Staff[]  = [
     // admin
     {name: "Kristina Lang", initials: "KL", role:"admin", email:'jt@ghl.ca'},
     {name: "Cindy Yee", initials: "CYEE", role:"admin", email:'jt@ghl.ca'},
+    {name: "Desiree Hodacsek", initials: "DH", role:"admin", email:'jt@ghl.ca'},
     
 ];
 
