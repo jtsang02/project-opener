@@ -102,100 +102,100 @@ export default function AdminPage() {
                 linkName: "Return to Form"
             }} />
 
-            <h1 className="text-xl font-bold mb-2 content">
+            <h1 className="mx-1 text-xl font-bold mb-2 content">
                 Project Opening Requests ({projects.length})
             </h1>
 
 
-            <div className="flex flex-col">
-                <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="mx-1 flex flex-col">
+                <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-200 max-lg">
                                 <thead className="bg-gray-50">
                                     <tr>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Prj #
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Project Name
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Project Address
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Deadline
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Client
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             PIC/PM
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Requested Date
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Status
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Send Email
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
                                     {projects.map((project) => (
                                         <tr key={project.name}>
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-4 py-4 whitespace-nowrap">
                                                 <div className="text-sm text-gray-900">{project.prjNumber}</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-4 py-4 whitespace-nowrap">
                                                 <div className="text-sm font-medium text-gray-900 hover:text-blue-700">
                                                     <Link href={`/projects/${project._id}`}>
                                                         <a>{project.name}</a>
                                                     </Link>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-left">
+                                            <td className="px-4 py-4 whitespace-nowrap text-left">
                                                 <div className='text-sm text-gray-900'>{
                                                     project.address
                                                 }</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="px-4 py-4 whitespace-nowrap text-center">
                                                 <div className={`text-sm font-medium ${!compareDates(project.dueDate, new Date()) ? " text-red-600" : "text-gray-900"
                                                     } `}>{
                                                         project.dueDate ? formatDate(project.dueDate) : "No Due Date"
                                                     }</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-left">
+                                            <td className="px-4 py-4 whitespace-nowrap text-left">
                                                 <div className='text-sm text-gray-900'>{
                                                     project.client.name
                                                 }</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                <div className='text-sm font-medium text-gray-900'>{
+                                            <td className="px-4 py-4 whitespace-nowrap text-center">
+                                                <div className='text-sm font-sm text-gray-900'>{
                                                     project.internalContact.principal + " / " + project.internalContact.projectManager
                                                 }</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="px-4 py-4 whitespace-nowrap text-center">
                                                 <div className={`text-sm font-medium text-gray-900"
                                                     } `}>{
                                                         project.createdDate ? formatDate(project.createdDate) : " - "
                                                     }</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                    ${project.status === "Open" ? "bg-blue-100 text-blue-800" :
-                                                        project.status === "Pending" ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800"}
+                                            <td className="px-4 py-4 whitespace-nowrap text-center">
+                                                <span className={`inline-flex text-sm font-medium leading-5 rounded-xl py-1 px-2
+                                                    ${project.status === "Open" ? "bg-blue-200 text-blue-800" :
+                                                        project.status === "Pending" ? "bg-yellow-200 text-yellow-800" : "bg-red-200 text-red-800"}
                                                     `}>
                                                     {project.status}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="px-4 py-4 whitespace-nowrap text-center">
                                                 <button
-                                                    className={`mt-1 text-sm font-medium bg-green-300 rounded-xl py-1 px-3 text-green-800 hover:text-black-900 hover:bg-green-400 
+                                                    className={`text-sm font-medium bg-green-300 rounded-xl py-1 px-3 text-green-800 hover:text-black-900 hover:bg-green-400 
                                                     ${project.prjNumber === "-" ? "cursor-not-allowed opacity-50" : ""}`}
                                                     disabled={project.prjNumber === "-"}
                                                     onClick={(e) => { handleSendEmail(e, project) }}
@@ -203,7 +203,7 @@ export default function AdminPage() {
                                                     Send
                                                 </button>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                            <td className="px-2 py-4 whitespace-nowrap text-center text-sm font-medium">
                                                 <div className="text-base">
                                                     <button
                                                         className="mr-1 text-blue-600 hover:text-blue-900"
