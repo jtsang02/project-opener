@@ -106,7 +106,6 @@ export default function AdminPage() {
                 Project Opening Requests ({projects.length})
             </h1>
 
-
             <div className="mx-1 flex flex-col">
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -149,7 +148,9 @@ export default function AdminPage() {
                                     {projects.map((project) => (
                                         <tr key={project.name}>
                                             <td className="px-4 py-4 whitespace-nowrap">
-                                                <div className="text-sm text-gray-900">{project.prjNumber}</div>
+                                                <div className="text-sm text-gray-900 text-center">
+                                                    {project.prjNumber ? project.prjNumber : "-"}
+                                                </div>
                                             </td>
                                             <td className="px-4 py-4 whitespace-nowrap">
                                                 <div className="text-sm font-medium text-gray-900 hover:text-blue-700">
@@ -196,8 +197,8 @@ export default function AdminPage() {
                                             <td className="px-4 py-4 whitespace-nowrap text-center">
                                                 <button
                                                     className={`text-sm font-medium bg-green-300 rounded-xl py-1 px-3 text-green-800 hover:text-black-900 hover:bg-green-400 
-                                                    ${project.prjNumber === "-" ? "cursor-not-allowed opacity-50" : ""}`}
-                                                    disabled={project.prjNumber === "-"}
+                                                    ${project.prjNumber === "" ? "cursor-not-allowed opacity-50" : ""}`}
+                                                    disabled={project.prjNumber === ""}
                                                     onClick={(e) => { handleSendEmail(e, project) }}
                                                 >
                                                     Send

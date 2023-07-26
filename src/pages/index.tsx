@@ -177,7 +177,7 @@ export default function ({ }: { project: Project }) {
       createdDate: new Date(),
       notes: notes,
       status: "Open", // default status
-      prjNumber: "-"
+      prjNumber: "" // default project number
     };
 
     try {
