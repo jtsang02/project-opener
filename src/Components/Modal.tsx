@@ -22,7 +22,9 @@ const Modal: React.FC<ModalProps> = ({ onClose, children, title }) => {
               x
             </a>
           </div>
-          {title && <h2 className="text-xl font-bold mb-2">{title}</h2>}
+          <h1 className="text-xl font-bold mb-2 pb-1 border-b-2">Update Project Info</h1>
+          {title && <h2 className="text-xl mb-2 font-medium">{title}</h2>}
+          
           <div className="modal-body">{children}</div>
         </div>
       </div>
