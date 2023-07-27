@@ -4,10 +4,9 @@ import ReactDOM from "react-dom";
 interface ModalProps {
   onClose: () => void;
   children: ReactNode;
-  title?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ onClose, children, title }) => {
+const Modal: React.FC<ModalProps> = ({ onClose, children }) => {
   const handleCloseClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     onClose();
@@ -21,10 +20,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, children, title }) => {
             <a href="#" onClick={handleCloseClick}>
               x
             </a>
-          </div>
-          <h1 className="text-xl font-bold mb-2 pb-1 border-b-2">Update Project Info</h1>
-          {title && <h2 className="text-xl mb-2 font-medium">{title}</h2>}
-          
+          </div>         
           <div className="modal-body">{children}</div>
         </div>
       </div>

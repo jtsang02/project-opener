@@ -16,10 +16,19 @@ export default function AdminPage() {
 
     const [projects, setProjects] = useState<Project[]>([]);
     const [projectModalStates, setProjectModalStates] = useState<{ [id: string]: boolean }>({}); // state to track showModal for each project
+    const [projectDeleteModalStates, setProjectDeleteModalStates] = useState<{ [id: string]: boolean }>({}); // state to track delete showModal for each project
 
     // Function to toggle the showModal state for a specific project
     const toggleModal = (projectId: string) => {
         setProjectModalStates((prevStates) => ({
+            ...prevStates,
+            [projectId]: !prevStates[projectId],
+        }));
+    };
+
+    // Function to toggle the showModal state for a specific project but for the delete modal
+    const toggleDeleteModal = (projectId: string) => {
+        setProjectDeleteModalStates((prevStates) => ({
             ...prevStates,
             [projectId]: !prevStates[projectId],
         }));
@@ -212,10 +221,10 @@ export default function AdminPage() {
                                                         <FaEdit />
                                                     </button>
                                                     {projectModalStates[project._id] &&
-                                                        <Modal onClose={() => toggleModal(project._id)}
-                                                            title={`${project.name}`}
-                                                        >
+                                                        <Modal onClose={() => toggleModal(project._id)}>
                                                             <div>
+                                                                <h1 className="text-xl font-bold mb-2 pb-1 border-b-2">Update Project Info</h1>
+                                                                <h2 className="text-xl mb-2 font-medium">{project.name}</h2>
                                                                 <div className="flex items-center mb-2">
                                                                     <h3 className="font-semibold mr-4 w-48">Project Status</h3>
                                                                     <Select
@@ -308,9 +317,30 @@ export default function AdminPage() {
                                                     }
                                                     <button
                                                         className="ml-1 text-red-600 hover:text-red-900"
-                                                        onClick={() => deleteProject(project._id)}>
+                                                        onClick={() => toggleDeleteModal(project._id)}
+                                                        >
                                                         <BsFillTrashFill />
                                                     </button>
+                                                    {projectDeleteModalStates[project._id] &&
+                                                        <Modal onClose={() => toggleDeleteModal(project._id)}>
+                                                                <h1 className="text-xl font-bold mb-2 pb-1">{`Delete ${project.name}`}</h1>
+                                                                <p className="text-sm text-gray-500 mb-4">{`Are you sure you want to delete ${project.name}`}? <p>This action cannot be undone.</p></p>
+                                                                <div className="flex flex-wrap justify-center place-items-center mt-11">
+                                                                    <button
+                                                                        className="bg-gray-200 text-gray-500 hover:bg-gray-300 px-4 py-2 rounded-md mr-2"
+                                                                        onClick={() => toggleDeleteModal(project._id)}
+                                                                    >
+                                                                        Cancel
+                                                                    </button>
+                                                                    <button
+                                                                        className="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded-md"
+                                                                        onClick={() => deleteProject(project._id)}
+                                                                    >
+                                                                        Delete
+                                                                    </button>
+                                                                </div>
+                                                        </Modal>
+                                                    }                
                                                 </div>
                                             </td>
                                         </tr>
