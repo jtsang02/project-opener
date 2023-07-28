@@ -18,8 +18,8 @@ export default function Login () {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <form onSubmit={handleSubmit} className="flex flex-col p-8 bg-gray-100 rounded shadow">
-        <h2 className="text-2xl font-bold mb-4">Admin Login</h2>
+      <form onSubmit={handleSubmit} className="flex flex-col p-8 bg-gray-100 shadow rounded-2xl w-5/6 max-w-md">
+        <h2 className="text-2xl font-bold mb-4 text-center">Admin Login</h2>
         <label className="mb-2 flex flex-col">
           Username:
           <input
@@ -48,9 +48,14 @@ export default function Login () {
             Clear
           </button>
         </div>
-        <button className="mt-5 text-m font-medium bg-gray-300 rounded-lg py-1 px-2 text-red-800 hover:text-red-900 hover:bg-gray-400">
-            <Link href="/">Back to Form</Link>
-        </button>
+        <div className="flex justify-between">
+            <button className="mt-1 text-m font-medium py-1 px-2 text-blue-800 hover:text-blue-600">
+                <Link href="/">Form</Link>
+            </button>
+            <button className="mt-1 text-m font-medium py-1 px-2 text-blue-800 hover:text-blue-600">
+                <Link href="/register">Register</Link>
+            </button>
+        </div>
       </form>
     </div>
   );
