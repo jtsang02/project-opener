@@ -41,10 +41,10 @@ export default function Login () {
           />
         </label>
         <div className="flex justify-center space-x-4">
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-700">
             Submit
           </button>
-          <button type="button" onClick={handleClear} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+          <button type="button" onClick={handleClear} className="bg-gray-500 text-white px-4 py-2 rounded-2xl hover:bg-gray-700">
             Clear
           </button>
         </div>
