@@ -206,7 +206,7 @@ export default function ({ }: { project: Project }) {
       }} />
       <section>
         <div className="mx-auto px-4 sm:px-8 py-8 max-w-screen-lg">
-          <div className="p-6 bg-white rounded-lg shadow-md">
+          <div className="p-6 bg-white rounded-2xl shadow-md">
             <form ref={formRef}>
               <div className="grid grid-cols-1 gap-6">
 
