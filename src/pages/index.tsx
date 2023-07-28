@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import Link from "next/link";
+import { useRouter } from 'next/router';
 import Project from "@/Models/Project";
 import { classification } from "@/Data/Classification";
 import { feeCategories } from "@/Data/FeeCategories";
@@ -13,6 +13,8 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
 
 export default function ({ }: { project: Project }) {
+
+  const router = useRouter();
 
   const formRef = useRef<HTMLFormElement>(null);
   const principalRef = useRef<any>(null);
@@ -194,6 +196,8 @@ export default function ({ }: { project: Project }) {
       console.error('Error:', error);
     }
     resetForm(e);
+    // navigate to the submitted page
+    router.push("/submitted");
   }
 
   return (
@@ -526,20 +530,18 @@ export default function ({ }: { project: Project }) {
                     onChange={(e) => setNotes(e.target.value || "")}
                   ></textarea>
                 </label>
-                <div className="flex-col-2">
+                <div className="flex justify-center space-x-4">
                   <Button
                     ripple={true}
-                    className={`mt-1 text-lg font-medium bg-gray-300 rounded-lg py-1 px-2 text-red-800 w-1/2 ${!formValid && "opacity-50 cursor-not-allowed"}`}
+                    className={`mt-1 text-lg font-medium bg-gray-300 rounded-2xl py-1 px-2 text-red-800 w-1/2 ${!formValid && "opacity-50 cursor-not-allowed"}`}
                     disabled={!formValid}
                     onClick={handleSubmit}
                   >
-                    <Link href='/submitted'>
-                      Submit
-                    </Link>
+                    Submit
                   </Button>
                   <Button
                     ripple={true}
-                    className="mt-1 text-lg font-medium bg-gray-300 rounded-lg py-1 px-2 text-red-800 w-1/2"
+                    className="mt-1 text-lg font-medium bg-gray-300 rounded-2xl py-1 px-2 text-red-800 w-1/2"
                     onClick={handleReset}
                   >
                     Reset

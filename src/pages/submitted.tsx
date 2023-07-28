@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-export default function Submitted() {
+export default function Submitted () {
 
     return (
         <>
