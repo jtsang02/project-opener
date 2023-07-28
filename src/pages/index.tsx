@@ -201,7 +201,7 @@ export default function ({ }: { project: Project }) {
       <Header props={{
         heading: "Project Opening Form",
         paragraph: "Fill out the form below to request a new project number.",
-        linkurl: "/admin",
+        linkurl: "/login",
         linkName: "Login as Admin"
       }} />
       <section>
