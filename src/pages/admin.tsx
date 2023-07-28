@@ -206,7 +206,7 @@ export default function AdminPage() {
                                             <td className="px-4 py-4 whitespace-nowrap text-center">
                                                 <button
                                                     className={`text-sm font-medium bg-green-300 rounded-xl py-1 px-3 text-green-800 hover:text-black-900 hover:bg-green-400 
-                                                    ${project.prjNumber === "" ? "cursor-not-allowed opacity-50" : ""}`}
+                                                    ${project.prjNumber === "" ? "cursor-not-allowed opacity-50 hover:bg-green-300" : ""}`}
                                                     disabled={project.prjNumber === ""}
                                                     onClick={(e) => { handleSendEmail(e, project) }}
                                                 >
