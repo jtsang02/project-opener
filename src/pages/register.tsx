@@ -20,10 +20,32 @@ export default function RegistrationPage() {
         setPasswordValid(PASSWORD_REGEX.test(password));
     }, [password]);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Perform registration logic here, e.g., submit data to the server for registration
-        console.log("Submitting registration with username:", name, "email:", email, "password:", password, "role:", selectedRole.value);
+
+        const body = {
+                name: name,
+                initials: name.split(" ").map((n: string) => n[0].toUpperCase()).join(""),
+                role: selectedRole.value,
+                email: email,
+                password: password
+            };
+
+        try {
+            let response = await fetch("/api/user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+            let json = await response.json();
+            console.log('User created successfully', JSON.stringify(json));
+            handleClear();
+            alert("User created successfully");
+        } catch (error) {
+            console.error("An unexpected error occurred:", error);
+        }
     };
 
     const handleClear = () => {
@@ -45,7 +67,7 @@ export default function RegistrationPage() {
             <form onSubmit={handleSubmit} className="flex flex-col p-8 bg-gray-100 rounded-2xl shadow w-5/6 max-w-md">
                 <h2 className="text-2xl font-bold mb-4 text-center">Registration</h2>
                 <label className="mb-2 flex flex-col">
-                    <span className="mb-1">Name:</span>
+                    <span className="mb-1">Full name:</span>
                     <input
                         type="text"
                         value={name}
@@ -60,7 +82,7 @@ export default function RegistrationPage() {
                         options={roleOptions as any}
                         value={selectedRole}
                         onChange={(e) => setSelectedRole(e)}
-                        className="border border-gray-300 rounded p-2"
+                        className="rounded"
                         required
                     />
                 </div>

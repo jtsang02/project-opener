@@ -1,6 +1,6 @@
-import Staff from '../Models/Staff';
+// import Staff from '../Models/Staff';
 
-const staff: Staff[]  = [
+const staff  = [
     // principals
     { name: "Jeff Mitchell", initials: "JDM", role:"principal", email: 'jt@ghl.ca' },
     { name: "John Buscemi", initials: "JB", role:"principal", email: 'jt@ghl.ca' },
