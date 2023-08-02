@@ -21,7 +21,7 @@ export default function AdminPage() {
     return <div>Loading...</div>;
   }
   // If the user is not authenticated, redirect them to the login page
-  if (status != "authenticated") {
+  if (!session?.user) {
     // You can use the Next.js router to redirect
     // Here's an example using Next.js's useRouter hook
     // Replace '/login' with the actual path to your login page
@@ -140,8 +140,8 @@ export default function AdminPage() {
         props={{
           heading: "Admin View",
           paragraph: "",
-          linkurl: "/login", // TODO: change this to sign out function
-          linkName: "Logout",
+          linkurl: "/", // TODO: change this to sign out function
+          linkName: "Back to Form",
         }}
       />
 
