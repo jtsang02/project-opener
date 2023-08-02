@@ -1,18 +1,40 @@
 import { useState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function Login () {
-  const [username, setUsername] = useState("");
+
+  const router = useRouter();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Perform login logic here, e.g., submit data to the server for authentication
-    console.log("Submitting login with username:", username, "and password:", password);
+    
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      console.log(res);
+      if (res.ok) {
+        router.push("/admin");
+        alert("Login successful");
+      } else {
+        alert(res.error);
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
   };
 
+
   const handleClear = () => {
-    setUsername("");
+    setEmail("");
     setPassword("");
   };
 
@@ -21,11 +43,11 @@ export default function Login () {
       <form onSubmit={handleSubmit} className="flex flex-col p-8 bg-gray-100 shadow rounded-2xl w-5/6 max-w-md">
         <h2 className="text-2xl font-bold mb-4 text-center">Admin Login</h2>
         <label className="mb-2 flex flex-col">
-          Username:
+          Email:
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="border border-gray-300 rounded p-2"
             required
           />

@@ -7,6 +7,6 @@ export default function sortProjects(projects: Project[]): Project[] {
         return a.status.localeCompare(b.status);
     }
     );
-    console.log(" sorted projects: ", sorted);
+    // console.log(" sorted projects: ", sorted);
     return sorted;
 }

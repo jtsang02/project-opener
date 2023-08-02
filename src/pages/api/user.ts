@@ -2,6 +2,7 @@ import clientPromise from "../../../lib/mongodb";
 import Staff from "@/Models/Staff";
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
+import { hash } from "bcryptjs";
 
 export default async function handler(
     req: NextApiRequest,
@@ -25,13 +26,19 @@ export default async function handler(
             }
 
             case "POST": {
-                const staff = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
-                const result = await db.collection("staff").insertOne(staff);
-                if (!result) {
-                    res.status(500).json({ message: "Internal Server Error" });
-                } else {
-                    res.status(200).json({ message: "Staff Member Created", result });
-                }
+                if (!req.body) return res.status(400).json({ message: "No body" });
+                    const { name, initials, role, email, password } = req.body;
+                    const hashedPassword = await hash(password, 12);
+                    const updatedStaff = await db
+                        .collection<Staff>("staff")
+                        .insertOne({
+                            name,
+                            initials,
+                            role,
+                            email,
+                            password: hashedPassword,
+                        });
+                    res.status(200).json(updatedStaff);
                 break;
             }
 
