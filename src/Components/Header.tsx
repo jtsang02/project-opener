@@ -4,7 +4,7 @@ export default function Header ({ props }: {
     props: {
         heading: string;
         paragraph: string;
-        linkurl: string;
+        linkurl: string; // make it optional
         linkName: string;
     };
 }) {
@@ -26,10 +26,10 @@ export default function Header ({ props }: {
                 {props.paragraph} {' '}
             </p>
             <div className="text-center mt-2">
-                <Button props={{
+                {props.linkurl && <Button props={{
                     linkurl: props.linkurl,
                     linkName: props.linkName
-                }} />
+                }} />}
             </div>
         </div>
     );
