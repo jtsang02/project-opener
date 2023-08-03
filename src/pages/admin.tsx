@@ -16,24 +16,6 @@ import { useSession } from "next-auth/react";
 
 export default function AdminPage() {
   const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-  // If the user is not authenticated, redirect them to the login page
-  if (!session?.user) {
-    // You can use the Next.js router to redirect
-    // Here's an example using Next.js's useRouter hook
-    // Replace '/login' with the actual path to your login page
-    // This example assumes you have a login page at /login
-    // Make sure to import { useRouter } from 'next/router' at the top of your file
-    const router = useRouter();
-    router.push("/login");
-
-    // Alternatively, you can display a message indicating the page is protected
-    return <div>This page is protected. Please log in to view it.</div>;
-  }
-
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectModalStates, setProjectModalStates] = useState<{
     [id: string]: boolean;
@@ -134,14 +116,29 @@ export default function AdminPage() {
       });
   };
 
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+  // If the user is not authenticated, redirect them to the login page
+  if (!session?.user) {
+    // You can use the Next.js router to redirect
+    // Here's an example using Next.js's useRouter hook
+    // Replace '/login' with the actual path to your login page
+    // This example assumes you have a login page at /login
+    // Make sure to import { useRouter } from 'next/router' at the top of your file
+    const router = useRouter();
+    router.push("/login");
+
+    // Alternatively, you can display a message indicating the page is protected
+    return <div>This page is protected. Please log in to view it.</div>;
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col sm:py-12">
       <Header
         props={{
           heading: "Admin View",
-          paragraph: "",
-          linkurl: "/", // TODO: change this to sign out function
-          linkName: "Back to Form",
+          paragraph: ""
         }}
       />
 
