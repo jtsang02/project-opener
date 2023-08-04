@@ -40,17 +40,17 @@ export default function Navbar() {
         {status === "authenticated" && session?.user ? (
           <>
             <span className="text-gray-600">Hello, {session.user.name}!</span>
-            {/* <button
+            <button
               className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-2xl hover:bg-red-600"
               onClick={handleSignOut}
             >
               Sign Out
-            </button> */}
-            <Link href="/logout">
+            </button>
+            {/* <Link href="/logout">
               <a className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-2xl hover:bg-red-600">
                 Sign Out
               </a>
-            </Link>
+            </Link> */}
           </>
         ) : (
           <Link href="/login">
