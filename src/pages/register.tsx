@@ -9,9 +9,9 @@ export default function RegistrationPage() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [selectedRole, setSelectedRole] = useState<any>(null);
-    const [passwordValid, setPasswordValid] = useState(false);
+    const [passwordValid, setPasswordValid] = useState<boolean>(false);
 
-    const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+    const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,24}$/;
 
     useEffect(() => {
         if (password === "") {
@@ -121,7 +121,10 @@ export default function RegistrationPage() {
                     <span aria-label="at symbol">@</span>{" "}
                     <span aria-label="hashtag">#</span>{" "}
                     <span aria-label="dollar sign">$</span>{" "}
-                    <span aria-label="percent">%</span>
+                    <span aria-label="percent">%</span>{" "}
+                    <span aria-label="percent">^</span>{" "}
+                    <span aria-label="percent">&</span>{" "}
+                    <span aria-label="percent">*</span>{" "}
                 </p>
 
                 <div className="flex justify-center mt-2 space-x-4">
