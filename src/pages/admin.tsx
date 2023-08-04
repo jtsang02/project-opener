@@ -235,7 +235,7 @@ export default function AdminPage() {
                             {project.address}
                           </div>
                         </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-center">
+                        <td className="px-4 py-4 whitespace-nowrap text-left">
                           <div
                             className={`text-sm font-medium ${
                               !compareDates(project.dueDate, new Date())
@@ -316,7 +316,7 @@ export default function AdminPage() {
                                   <h1 className="text-xl font-bold mb-2 pb-1 border-b-2">
                                     Update Project Info
                                   </h1>
-                                  <h2 className="text-xl mb-2 font-medium">
+                                  <h2 className="text-xl text-red-800 mb-4 font-medium">
                                     {project.name}
                                   </h2>
                                   <div className="flex items-center mb-2">

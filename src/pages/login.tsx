@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { signOut } from "next-auth/react";
 
 export default function Login() {
   const router = useRouter();
@@ -84,17 +83,11 @@ export default function Login() {
         </div>
         <div className="flex justify-between">
           <button className="mt-1 text-m font-medium py-1 px-2 text-blue-800 hover:text-blue-600">
-            <Link href="/">Form</Link>
+            <Link href="/">Back</Link>
           </button>
           <button className="mt-1 text-m font-medium py-1 px-2 text-blue-800 hover:text-blue-600">
             <Link href="/register">Register</Link>
           </button>
-          {/* <button
-            className="mt-1 text-m font-medium py-1 px-2 text-blue-800 hover:text-blue-600"
-            onClick={() => signOut()}
-          >
-            Sign Out
-          </button> */}
         </div>
       </form>
     </div>
