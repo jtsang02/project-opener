@@ -6,6 +6,7 @@ import Staff from "@/Models/Staff";
 import { User } from "next-auth";
 
 export default NextAuth({
+  secret: process.env.SECRET,
   providers: [
     CredentialsProvider({
       id: "credentials",
