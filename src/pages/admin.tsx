@@ -17,6 +17,7 @@ import { useSession } from "next-auth/react";
 
 export default function AdminPage() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectModalStates, setProjectModalStates] = useState<{
     [id: string]: boolean;
@@ -127,7 +128,6 @@ export default function AdminPage() {
     // Replace '/login' with the actual path to your login page
     // This example assumes you have a login page at /login
     // Make sure to import { useRouter } from 'next/router' at the top of your file
-    const router = useRouter();
     router.push("/login");
 
     // Alternatively, you can display a message indicating the page is protected
@@ -140,7 +140,7 @@ export default function AdminPage() {
         <Header
           props={{
             heading: "Admin View",
-            paragraph: "",
+            paragraph: ""
           }}
         />
 

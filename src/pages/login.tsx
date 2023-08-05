@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 
 export default function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   // each time the page loads, check if the user is logged in
   // if they are logged in, log them out
@@ -18,8 +18,8 @@ export default function Login() {
 
     try {
       const res = await signIn("credentials", {
-        email,
-        password,
+        email: email,
+        password: password,
         redirect: false,
       });
       console.log(res);

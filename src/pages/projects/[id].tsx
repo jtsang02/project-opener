@@ -25,9 +25,7 @@ export default function ProjectPage() {
         <Header
           props={{
             heading: project?.name || "Project",
-            paragraph: project?.address || "Project address",
-            linkurl: "/admin",
-            linkName: "Return to Dashboard",
+            paragraph: project?.address || "Project address"
           }}
         />
 

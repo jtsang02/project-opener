@@ -13,10 +13,9 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
 import { signIn, signOut, useSession } from "next-auth/react";
 
-export default function ({ }: { project: Project }) {
+export default function Form ({ }: { project: Project }) {
 
   const router = useRouter();
-
   const formRef = useRef<HTMLFormElement>(null);
   const principalRef = useRef<any>(null);
   const projectManagerRef = useRef<any>(null);
@@ -205,7 +204,7 @@ export default function ({ }: { project: Project }) {
     <main className="min-h-screen bg-gray-100 py-6 flex flex-col sm:py-12">
       <Header props={{
         heading: "Project Opening Form",
-        paragraph: "Fill out the form below to request a new project number.",
+        paragraph: "Fill out the form below to request a new project number."
       }} />
       <section>
         <div className="mx-auto px-4 sm:px-8 py-8 max-w-screen-lg">

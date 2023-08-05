@@ -26,7 +26,7 @@ export default async function handler(
 
       case "POST": {
         const project = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
-        const result = await db.collection("projects").insertOne(project);
+        const result = await db.collection<Project>("projects").insertOne(project);
         if (!result) {
             res.status(500).json({ message: "Internal Server Error" });
         } else {
@@ -37,8 +37,7 @@ export default async function handler(
 
       case "PUT": {
         const updatedProject = req.body;
-        const result = await db
-          .collection<Project>("projects")
+        const result = await db.collection<Project>("projects")
           .findOneAndUpdate(
             { _id: new ObjectId(req.query.id as string) },
             { $set: updatedProject },
