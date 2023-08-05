@@ -15,6 +15,7 @@ export default async function handler(
       case "GET": {
         const project = await db
           .collection<Project>("projects")
+          // @ts-ignore - _id is not a string
           .findOne({ _id: new ObjectId(req.query.id as string) });
         if (!project) {
           res.status(404).json({ message: "Not Found" });
@@ -28,9 +29,9 @@ export default async function handler(
         const project = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
         const result = await db.collection<Project>("projects").insertOne(project);
         if (!result) {
-            res.status(500).json({ message: "Internal Server Error" });
+          res.status(500).json({ message: "Internal Server Error" });
         } else {
-            res.status(200).json({ message: "Project Created", result });
+          res.status(200).json({ message: "Project Created", result });
         }
         break;
       }
@@ -39,6 +40,7 @@ export default async function handler(
         const updatedProject = req.body;
         const result = await db.collection<Project>("projects")
           .findOneAndUpdate(
+            // @ts-ignore - _id is not a string
             { _id: new ObjectId(req.query.id as string) },
             { $set: updatedProject },
             { returnDocument: "after" }
@@ -52,13 +54,15 @@ export default async function handler(
       }
 
       case "DELETE": {
+        // @ts-ignore - _id is not a string
         const project = await db
-            .collection<Project>("projects")
-            .findOneAndDelete({ _id: new ObjectId(req.query.id as string) });
+          .collection<Project>("projects")
+          // @ts-ignore - _id is not a string
+          .findOneAndDelete({ _id: new ObjectId(req.query.id as string) });
         if (!project.value) {
-            res.status(404).json({ message: "Project not found" });
+          res.status(404).json({ message: "Project not found" });
         } else {
-            res.status(200).json({ message: "Project deleted" });
+          res.status(200).json({ message: "Project deleted" });
         }
         break;
       }

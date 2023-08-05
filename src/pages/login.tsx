@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -7,10 +7,6 @@ export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
-  // each time the page loads, check if the user is logged in
-  // if they are logged in, log them out
-  // this is to prevent the user from being logged in on multiple devices
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,11 +19,11 @@ export default function Login() {
         redirect: false,
       });
       console.log(res);
-      if (res.ok) {
+      if (res?.ok) {
         router.push("/admin");
         alert("Login successful");
       } else {
-        alert(res.error);
+        alert(res?.error);
       }
     } catch (error) {
       console.error(error);
