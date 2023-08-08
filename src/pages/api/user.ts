@@ -33,6 +33,7 @@ export default async function handler(
                     const hashedPassword = await hash(password, 12);
                     const updatedStaff = await db
                         .collection<Staff>("staff")
+                        // @ts-ignore
                         .insertOne({
                             name,
                             initials,
