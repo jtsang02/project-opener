@@ -26,6 +26,23 @@ export default async function handler(
                 break;
             }
 
+            case "POST": {
+                if (!req.body) return res.status(400).json({ message: "No body" });
+                    const { name, initials, role, email, password } = req.body;
+                    const hashedPassword = await hash(password, 12);
+                    const updatedStaff = await db
+                        .collection<Staff>("staff")
+                        .insertOne({
+                            name,
+                            initials,
+                            role,
+                            email,
+                            password: hashedPassword,
+                        });
+                    res.status(200).json(updatedStaff);
+                break;
+            }
+
             case "DELETE": {
                 const result = await db
                     .collection("staff")
