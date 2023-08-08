@@ -28,7 +28,8 @@ export default async function handler(
 
             case "POST": {
                 if (!req.body) return res.status(400).json({ message: "No body" });
-                    const { name, initials, role, email, password } = req.body;
+                    const staff = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+                    const { name, initials, role, email, password } = staff;
                     const hashedPassword = await hash(password, 12);
                     const updatedStaff = await db
                         .collection<Staff>("staff")
