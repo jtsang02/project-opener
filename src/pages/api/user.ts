@@ -16,29 +16,13 @@ export default async function handler(
             case "GET": {
                 const staff = await db
                     .collection<Staff>("staff")
+                    // @ts-ignore - _id is not a string
                     .findOne({ _id: new ObjectId(req.query.id as string) });
                 if (!staff) {
                     res.status(404).json({ message: "Not Found" });
                 } else {
                     res.status(200).json(staff);
                 }
-                break;
-            }
-
-            case "POST": {
-                if (!req.body) return res.status(400).json({ message: "No body" });
-                    const { name, initials, role, email, password } = req.body;
-                    const hashedPassword = await hash(password, 12);
-                    const updatedStaff = await db
-                        .collection<Staff>("staff")
-                        .insertOne({
-                            name,
-                            initials,
-                            role,
-                            email,
-                            password: hashedPassword,
-                        });
-                    res.status(200).json(updatedStaff);
                 break;
             }
 
