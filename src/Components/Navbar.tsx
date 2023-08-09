@@ -1,6 +1,8 @@
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
+import Image from "next/image";
+import GHL from "../public/GHL.png";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -14,10 +16,12 @@ export default function Navbar() {
       <div>
         <Link href="https://ghl.ca/">
           <a>
-            <img
-              src="https://media.licdn.com/dms/image/C560BAQEplORITVjfHg/company-logo_200_200/0/1677647848969?e=1699488000&v=beta&t=kyIVSdL3KVY2euGZhlKBYQgX2yQuhGs4J3vLX4r0NGc"
+            <Image
+              src="/GHL.png"
               alt="logo"
-              className="h-10 w-auto rounded-md"
+              className="rounded-md"
+              width={35}
+              height={35}
             />
           </a>
         </Link>
@@ -40,17 +44,17 @@ export default function Navbar() {
         {status === "authenticated" && session?.user ? (
           <>
             <span className="text-gray-600">Hello, {session.user.name}!</span>
-            <button
+            {/* <button
               className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-2xl hover:bg-red-600"
               onClick={handleSignOut}
             >
               Sign Out
-            </button>
-            {/* <Link href="/logout">
+            </button> */}
+            <Link href="/logout">
               <a className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-2xl hover:bg-red-600">
                 Sign Out
               </a>
-            </Link> */}
+            </Link>
           </>
         ) : (
           <Link href="/login">
