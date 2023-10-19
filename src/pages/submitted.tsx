@@ -13,7 +13,7 @@ export default function Submitted () {
                     </div>
                 </div>
                 <div className="flex justify-center mx-auto px-4">
-                    <div className="mt-1 text-m font-medium bg-gray-300 rounded-lg py-1 px-2 text-red-800 hover:text-red-900 hover:bg-gray-400">
+                    <div className="mt-1 text-m font-medium bg-gray-300 rounded-lg py-1 px-2 text-gray-800 hover:text-gray-900 hover:bg-gray-400">
                         <Link href="/">
                             <a>Return to Form</a>
                         </Link>

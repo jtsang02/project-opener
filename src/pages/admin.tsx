@@ -189,7 +189,7 @@ export default function AdminPage() {
                         scope="col"
                         className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        PIC/PM
+                        Internal Team
                       </th>
                       <th
                         scope="col"
@@ -316,7 +316,7 @@ export default function AdminPage() {
                                   <h1 className="text-xl font-bold mb-2 pb-1 border-b-2">
                                     Update Project Info
                                   </h1>
-                                  <h2 className="text-xl text-red-800 mb-4 font-medium">
+                                  <h2 className="text-xl text-orange-800 mb-4 font-medium">
                                     {project.name}
                                   </h2>
                                   <div className="flex items-center mb-2">

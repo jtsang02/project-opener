@@ -9,11 +9,7 @@ export default function Header ({ props }: {
     return (
         <div className="mb-10 ">
             <div className="flex justify-center">
-                    <img
-                        alt=""
-                        className="h-16 w-auto bg-gray-500 p-1 rounded-md"
-                        src="https://ghl.ca/wp-content/uploads/2017/07/logo_White_Red.png"
-                    />
+    
             </div>
             <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
                 {props.heading}

@@ -1,22 +1,20 @@
 // import Staff from '../Models/Staff';
 
 const staff  = [
-    // principals
-    { name: "Jeff Mitchell", initials: "JDM", role:"principal", email: 'jt@ghl.ca' },
-    { name: "John Buscemi", initials: "JB", role:"principal", email: 'jt@ghl.ca' },
-    { name: "Jun Kim", initials: "JHK", role:"principal", email: 'jt@ghl.ca'},
-    { name: "Adam Nadem", initials: "AN", role:"principal", email:'jtstripes95@gmail.com'},     // test email
-    // associates
-    { name: "Darrell Li", initials: "DL", role:"associate", email:'jt@ghl.ca'},
-    { name: "Claire Yuan", initials: "CY", role:"associate", email:'jt@ghl.ca'},
+    // Senior Manager
+    { name: "John Doe", initials: "JD", role:"principal", email: 'john.doe@example.com' },
+    { name: "Jane Smith", initials: "JS", role:"principal", email: 'jane.smith@example.com' },
+    { name: "Michael Johnson", initials: "MJ", role:"principal", email: 'michael.johnson@example.com'},
+    { name: "Sarah Williams", initials: "SW", role:"principal", email:'sarah.williams@example.com'},     // test email
+    // Project manager
+    { name: "Robert Brown", initials: "RB", role:"associate", email:'robert.brown@example.com'},
+    { name: "Emily Davis", initials: "ED", role:"associate", email:'emily.davis@example.com'},
     // tech staff
-    { name: "Josiah Tsang", initials: "JT", role:"tech", email:'jt@ghl.ca'},
-    { name: "Morgan Trithart", initials: "MRT", role:"tech", email:'jtstripes95@gmail.com'},  // test email
-    { name: "Ruth Morrison", initials: "RM", role:"tech", email:'jt@ghl.ca'},
+    { name: "Christopher Wilson", initials: "CW", role:"tech", email:'christopher.wilson@example.com'},
+    { name: "Amanda Anderson", initials: "AA", role:"tech", email:'amanda.anderson@example.com'},  
+    { name: "Daniel Garcia", initials: "DG", role:"tech", email:'daniel.garcia@example.com'},
     // admin
-    {name: "Kristina Lang", initials: "KL", role:"admin", email:'jt@ghl.ca'},
-    {name: "Cindy Yee", initials: "CYEE", role:"admin", email:'jt@ghl.ca'},
-    {name: "Desiree Hodacsek", initials: "DH", role:"admin", email:'jt@ghl.ca'},
+    {name: "Josiah Tsang", initials: "JT", role:"admin", email:'jtstripes95@gmail.com'},
     
 ];
 

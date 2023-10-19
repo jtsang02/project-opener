@@ -30,7 +30,7 @@ export default async function handler (
     const mailOptions = {
       from: 'jtsang13@hotmail.com', // change to GHL Admin
       to: recipients,
-      subject: `New Project Opened: ${props.project.name} (GHL ${props.project.prjNumber})`,
+      subject: `New Project Opened: ${props.project.name} (Project #:${props.project.prjNumber})`,
       html: OpenEmail({ props })
     };
 

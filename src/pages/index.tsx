@@ -357,7 +357,7 @@ export default function Form ({ }: { project: Project }) {
 
                 <label className="text-xl font-bold text-gray-900">Accounting</label>
                 {/* Contract type */}
-                <span className="text-gray-700 font-medium px-1">Contract Type
+                {/* <span className="text-gray-700 font-medium px-1">Contract Type
                   <span className="text-red-500">*</span>
                 </span>
                 {contractTypes.map((item) => (
@@ -369,7 +369,7 @@ export default function Form ({ }: { project: Project }) {
                     value={item.option}
                     onChange={(e) => setFormalContract(e.target.value === "formal")}
                   />
-                ))}
+                ))} */}
 
                 {/* Fee Category */}
                 <span className="text-gray-700 font-medium px-1">Fee Category
@@ -415,8 +415,8 @@ export default function Form ({ }: { project: Project }) {
                 )}
 
                 {/* Principal */}
-                <label className="text-xl font-bold text-gray-900">GHL Contact</label>
-                <span className="text-gray-700 font-medium px-1">Principal
+                <label className="text-xl font-bold text-gray-900">Project Contact</label>
+                <span className="text-gray-700 font-medium px-1">Senior Manager
                   <span className="text-red-500">*</span>
                 </span>
                 <div className="w-72 gap-6" >
@@ -523,14 +523,14 @@ export default function Form ({ }: { project: Project }) {
                     id="notes"
                     rows={3}
                     className="mt-1 block w-full rounded-md p-1 bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
-                    placeholder="add any special notes here like if this is a point job"
+                    placeholder="add any special notes here like if this is a rush project"
                     onChange={(e) => setNotes(e.target.value || "")}
                   ></textarea>
                 </label>
                 <div className="flex justify-center space-x-4">
                   <Button
                     ripple={true}
-                    className={`mt-1 text-lg font-medium bg-gray-300 rounded-2xl py-1 px-2 text-red-800 w-1/2 ${!formValid && "opacity-50 cursor-not-allowed"}`}
+                    className={`mt-1 text-lg font-medium bg-gray-300 rounded-2xl py-1 px-2 text-gray-800 w-1/2 ${!formValid && "opacity-50 cursor-not-allowed"}`}
                     disabled={!formValid}
                     onClick={handleSubmit}
                   >
@@ -538,7 +538,7 @@ export default function Form ({ }: { project: Project }) {
                   </Button>
                   <Button
                     ripple={true}
-                    className="mt-1 text-lg font-medium bg-gray-300 rounded-2xl py-1 px-2 text-red-800 w-1/2"
+                    className="mt-1 text-lg font-medium bg-gray-300 rounded-2xl py-1 px-2 text-gray-800 w-1/2"
                     onClick={handleReset}
                   >
                     Reset

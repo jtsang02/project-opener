@@ -2,7 +2,7 @@ import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Image from "next/image";
-import GHL from "../public/GHL.png";
+import headerIcon from "../public/headerIcon.png";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -14,10 +14,10 @@ export default function Navbar() {
   return (
     <nav className="flex items-center justify-between py-4 px-6 bg-white shadow-md">
       <div>
-        <Link href="https://ghl.ca/">
+        <Link href="https://josiahtsang.netlify.app/">
           <a>
             <Image
-              src="/GHL.png"
+              src="/headerIcon.png"
               alt="logo"
               className="rounded-md"
               width={35}
@@ -58,7 +58,7 @@ export default function Navbar() {
           </>
         ) : (
           <Link href="/login">
-            <a className="px-4 py-2 text-sm font-medium text-red-800 bg-gray-300 rounded-2xl hover:text-red-900 hover:bg-gray-400">
+            <a className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 rounded-2xl hover:text-gray-900 hover:bg-gray-400">
               Login
             </a>
           </Link>
