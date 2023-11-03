@@ -18,8 +18,7 @@ The web app is built using Next.js, a full stack React framework for building we
 
 A demo of the app is deployed on Vercel, and can be accessed at the following link: https://project-opener.vercel.app/
 
-
-<video src="Project%20Opener%20Example.mp4" controls title="Title"></video>
+https://github.com/jtsang02/project-opener/assets/77314661/9cededa1-2e61-4e02-bee5-709bf9efe386
 
 ## Architecture
 
